@@ -1,0 +1,46 @@
+﻿Name,ID,Size
+Patients,1,2124
+Taxpayers,2,2761
+Federal Taxes,3,1881
+State Taxes,4,479
+Patient Services,5,4140
+Hospital Care,6,1520
+Physician and Clinical Services,7,980
+Prescription Drugs (Retail),8,450
+Operational costs (public),9,182
+Operatioonal costs (private),10,151
+Nursing & Continuing Care Facilities,11,211
+Other Health Res. Care,12,294
+Dental,13,197
+Home Health,14,147
+Medical Products,15,196
+Other Prof. Services,16,147
+Medicare,17,1155
+Medicaid,18,872
+"VA, DOD, CHIP",19,199
+Private Insurance,20,1465
+Other programs & 3rd parties,21,403
+Public Health,22,160
+R & D,23,227
+Structures & Equipment,24,167
+Private funding,25,109
+Profit,26,305
+Executives,27,33
+Admin. & Non-health staff,28,721
+Clinical Staff,29,991
+Doctors,30,505
+Marketing,31,69
+Facilities & Infrastructure,32,249
+Financial,33,94
+Medical supplies & equipment,34,305
+Laboratory & Imaging,35,120
+Kidney Dialysis Centers,36,33
+Other Costs,37,117
+Pharmacy Benefit Manager,38,393
+Retail Pharmacy,39,425
+Drug Wholesaler,40,335
+Drug Manufancturer,41,508
+Other Pharma operational costs,42,117
+Production,43,227
+Retail pharmacy staff,44,36
+Other Professional Services,45,0

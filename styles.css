@@ -89,9 +89,10 @@ main {
 }
 
 .flow-tooltip {
-    font-size: 12px;
-    padding: 6px 8px;
-    background: rgba(0.1, 0.1, 0.1, 0.7);
+    font-size: 10px;
+    color: rgb(15, 15, 15);
+    padding: 3px 4px;
+    background: rgba(255, 255, 255, 0.4);
     z-index: 900;
 }
 
@@ -99,6 +100,21 @@ main {
 .node-label {
     font-size: 12px;
     fill: #2c3e50;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.node-label tspan {
+    fill: #2c3e50;
+}
+
+.node-label.highlighted {
+    opacity: 1;
+    font-weight: bold;
+}
+
+.node-label.lowlighted {
+    opacity: 0.2;
 }
 
 .node {
@@ -106,10 +122,17 @@ main {
     stroke: #2980b9;
     cursor: pointer;
     transition: fill 0.3s ease;
+    opacity: 1;
+    transition: opacity 0.3s ease;
 }
 
 .node.highlighted {
     fill: #e74c3c;
+    opacity: 1;
+}
+
+.node.lowlighted {
+    opacity: 0.2;
 }
 
 .link {
@@ -120,7 +143,11 @@ main {
 }
 
 .link.highlighted {
-    stroke-opacity: 1;
+    stroke-opacity: 0.8;
+}
+
+.link.lowlighted {
+    stroke-opacity: 0.1;
 }
 
 .link.highlighted stop {
@@ -130,17 +157,17 @@ main {
 /* Gradient colors */
 .gradient-start {
     stop-color: #2980b9;
-    stop-opacity: 0.4;
+    stop-opacity: 0.6;
 }
 
 .gradient-middle {
     stop-color: #bdc3c7;
-    stop-opacity: 0.2;
+    stop-opacity: 0.3;
 }
 
 .gradient-end {
     stop-color: #2980b9;
-    stop-opacity: 0.4;
+    stop-opacity: 0.6;
 }
 
 /* About section styles */
@@ -210,4 +237,25 @@ main {
     .node-label {
         font-size: 10px;
     }
+}
+
+.loading, .error {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.loading {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    color: #495057;
+}
+
+.error {
+    background-color: #fff5f5;
+    border: 1px solid #feb2b2;
+    color: #c53030;
 } 

@@ -9,6 +9,8 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <!-- Load D3-Sankey plugin -->
     <script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+    <!-- Load Papa Parse -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -27,11 +29,11 @@
             </div>
         </main>
     </div>
-    <!-- Load data first -->
-    <script src="data.js"></script>
-    <!-- Then load the visualization code -->
+    <!-- Load visualization code first -->
     <script src="barcharts.js"></script>
     <script src="sankey.js"></script>
+    <!-- Then load and process data -->
+    <script src="data.js"></script>
     <!-- Add error handling -->
     <script>
         window.onerror = function(msg, url, lineNo, columnNo, error) {
