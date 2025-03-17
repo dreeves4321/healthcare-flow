@@ -277,9 +277,9 @@ function initializeSankey() {
                         .classed("lowlighted", true);
                     
                     // Update bar charts to show connected nodes
-                    if (typeof barCharts !== 'undefined' && barCharts.update) {
-                        barCharts.update(d);
-                    }
+                    // if (typeof barCharts !== 'undefined' && barCharts.update) {
+                    //     barCharts.update(d);
+                    // }
                     
                     // Show flow tooltips
                     connectedLinks.each(function(l) {
@@ -435,4 +435,10 @@ function wrapText(text, width, lineheight) {
             wordNumber++;
         }
     });
-} 
+}
+
+// Commenting out the bar chart container creation
+// const barChartContainer = d3.select("#bar-chart-container")
+//     .append("svg")
+//     .attr("width", "100%")
+//     .attr("height", barChartHeight); 

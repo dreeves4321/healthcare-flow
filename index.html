@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Healthcare Money Flow Visualization</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif; /* Apply Montserrat to the body */
+        }
+    </style>
     <!-- Load D3.js first -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <!-- Load D3-Sankey plugin -->
@@ -13,22 +19,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Healthcare Money Flow in America</h1>
-            <p class="subtitle">Interactive visualization of healthcare spending patterns</p>
-        </header>
-        <main>
-            <div class="about">
-                <p>This Sankey diagram shows how money flows through the American healthcare system. The width of each flow represents the amount of money moving between different sectors. Hover over the flows to see detailed information.</p>
-            </div>
-            <div id="sankey-container"></div>
-            <div class="charts-container">
-                <div id="source-barchart" class="barchart"></div>
-                <div id="sink-barchart" class="barchart"></div>
-            </div>
-        </main>
-    </div>
+    <header>
+        <div class="container">
+            <h1>Where Your Health Dollars Go</h1>
+            <p class="subtitle">To understand the healthcare system, follow the money</p>
+        </div>
+    </header>
+    <main>
+        <div class="stories-selector container">
+            <p><i>Stories</i></p>
+        </div>
+        <div class="details-container container">
+            <p>Details go in here</p>
+        </div>
+        <div id="sankey-container" class="container"></div>
+        <!-- <div class="charts-container">
+            <div id="source-barchart" class="barchart"></div>
+            <div id="sink-barchart" class="barchart"></div>
+        </div> -->
+    </main>
+
     <!-- Load visualization code first -->
     <script src="barcharts.js"></script>
     <script src="sankey.js"></script>

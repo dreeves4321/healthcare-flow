@@ -1,0 +1,93 @@
+{
+    "_comment": "All indices are 1-based to correspond with the csv input.",
+    "stories": [
+    {
+      "label": "patient_flow",
+      "title": "Patient Healthcare Journey",
+      "description": "Follow the flow of healthcare spending from patients through the system",
+      "nodes": [1, 5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 17],
+      "barCharts": [
+        {
+          "direction": "out",
+          "sections": [
+            {
+              "label": "Hospital Care",
+              "nodes": [6]
+            },
+            {
+              "label": "Clinical Services",
+              "nodes": [7, 8]
+            },
+            {
+              "label": "Other Care",
+              "nodes": [12, 13, 14, 15, 16, 17]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "pharma_flow",
+      "title": "Pharmaceutical Supply Chain",
+      "description": "Trace the flow of prescription drug spending through the supply chain",
+      "nodes": [8, 38, 39, 40, 41, 42, 43, 44, 45],
+      "barCharts": [
+        {
+          "direction": "in",
+          "sections": [
+            {
+              "label": "Manufacturing",
+              "nodes": [41, 42, 43, 44]
+            },
+            {
+              "label": "Distribution",
+              "nodes": [38, 40]
+            },
+            {
+              "label": "Retail",
+              "nodes": [39, 45]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "insurance_flow",
+      "title": "Insurance Payment Flow",
+      "description": "Follow how insurance payments flow through the healthcare system",
+      "nodes": [17, 18, 19, 20, 21, 5, 6, 7, 8],
+      "barCharts": [
+        {
+          "direction": "in",
+          "sections": [
+            {
+              "label": "Public Insurance",
+              "nodes": [17, 18, 19, 20]
+            },
+            {
+              "label": "Private Insurance",
+              "nodes": [21]
+            }
+          ]
+        },
+        {
+          "direction": "out",
+          "sections": [
+            {
+              "label": "Hospital Care",
+              "nodes": [6]
+            },
+            {
+              "label": "Clinical Services",
+              "nodes": [7, 8]
+            },
+            {
+              "label": "Prescription Drugs",
+              "nodes": [9]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+} 
