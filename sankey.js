@@ -23,7 +23,7 @@ function initializeSankey() {
             const containerWidth = Math.max(container.clientWidth, 800); // Fallback width if container is empty
             
             // Set up the dimensions and margins of the diagram
-            const margin = { top: 40, right: 160, bottom: 40, left: 20 };
+            const margin = { top: 0, right: 160, bottom: 0, left: 0 };
             const width = containerWidth - margin.left - margin.right;
             const height = 600 - margin.top - margin.bottom;
 
@@ -33,6 +33,7 @@ function initializeSankey() {
                 .attr("width", "100%")
                 .attr("height", height + margin.top + margin.bottom)
                 .attr("viewBox", [0, 0, width + margin.left + margin.right, height + margin.top + margin.bottom])
+                .attr("preserveAspectRatio", "none")
                 .append("g")
                 .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -50,7 +51,7 @@ function initializeSankey() {
             // Create the Sankey generator
             const sankey = d3.sankey()
                 .nodeWidth(10)
-                .nodePadding(10)
+                .nodePadding(20)
                 .extent([[0, 0], [width, height]]);
 
             // Generate the Sankey data
@@ -89,20 +90,13 @@ function initializeSankey() {
                 .attr("offset", "100%")
                 .attr("class", "gradient-end");
 
-            // Calculate the maximum flow value for scaling
-            const maxFlow = d3.max(links, d => d.value);
-
             // Add links
             svg.append("g")
                 .selectAll("path")
                 .data(links)
                 .join("path")
                 .attr("d", d3.sankeyLinkHorizontal())
-                .attr("stroke-width", d => {
-                    // Scale the width based on the value relative to maxFlow
-                    // Minimum width of 4, maximum of 40
-                    return 4 + (d.value / maxFlow) * 36;
-                })
+                .attr("stroke-width", d => 0.8*d.width)
                 .attr("class", "link")
                 .style("stroke", (d, i) => `url(#gradient-${i})`)
                 .on("mouseover", function(event, d) {
@@ -193,6 +187,20 @@ function initializeSankey() {
                     // Prevent event from bubbling up
                     event.stopPropagation();
                     
+                    // Get the container's position and scroll info
+                    const container = document.getElementById('sankey-container');
+                    const containerRect = container.getBoundingClientRect();
+                    const scrollY = window.scrollY;
+                    
+                    // Calculate the target scroll position to bring the top of the diagram into view
+                    const targetScrollY = scrollY + containerRect.top - 20; // 20px padding from top
+                    
+                    // Animate the scroll
+                    window.scrollTo({
+                        top: targetScrollY,
+                        behavior: 'smooth'
+                    });
+                    
                     // Get all currently highlighted nodes
                     const currentlyHighlighted = svg.selectAll(".node.highlighted");
                     
@@ -277,31 +285,30 @@ function initializeSankey() {
                     connectedLinks.each(function(l) {
                         const path = d3.select(this);
                         const pathNode = path.node();
-                        
-                        // Get the total length of the path
-                        const pathLength = pathNode.getTotalLength();
-                        
-                        // Get the point halfway along the path
-                        const midPoint = pathNode.getPointAtLength(pathLength / 2);
-                        
-                        // Get SVG position and scroll info
-                        const svgRect = svg.node().getBoundingClientRect();
+                        const pathRect = pathNode.getBoundingClientRect();
                         const scrollX = window.scrollX;
                         const scrollY = window.scrollY;
                         
-                        // Calculate final position (add scroll offset for absolute positioning)
-                        const x = midPoint.x + svgRect.left + scrollX + margin.left;
-                        const y = midPoint.y + svgRect.top + scrollY + margin.top;
-                        
-                        // Create a new tooltip for this flow
+                        // Create tooltip first without position
                         const flowTooltip = d3.select("body")
                             .append("div")
                             .attr("class", "tooltip flow-tooltip")
                             .style("opacity", 0)
                             .style("position", "absolute")
-                            .style("left", (x + 10) + "px")
-                            .style("top", (y - 28) + "px")
                             .html(`$${l.value.toLocaleString()} million`);
+                        
+                        // Get tooltip dimensions
+                        const tooltipWidth = flowTooltip.node().offsetWidth;
+                        const tooltipHeight = flowTooltip.node().offsetHeight;
+                        
+                        // Use the center of the path's bounding box and add scroll position
+                        const x = pathRect.left + (pathRect.width / 2) + scrollX;
+                        const y = pathRect.top + (pathRect.height / 2) + scrollY;
+                        
+                        // Now position the tooltip, centering it on the path
+                        flowTooltip
+                            .style("left", (x - tooltipWidth/2) + "px")
+                            .style("top", (y - tooltipHeight/2 - 10) + "px");
                             
                         flowTooltip.transition()
                             .duration(200)
@@ -311,8 +318,8 @@ function initializeSankey() {
 
             // Add labels for nodes
             node.append("text")
-                .attr("x", d => d.x1 - d.x0 + 6)
-                .attr("y", d => (d.y1 - d.y0) / 3)  // Position 1/3 from top of rectangle
+                .attr("x", d => d.x1 - d.x0 + 5)
+                .attr("y", d => (d.y1 - d.y0) / 2)  // Position 1/3 from top of rectangle
                 .attr("dy", "0px")
                 .attr("text-anchor", "start")
                 .attr("class", "node-label")
