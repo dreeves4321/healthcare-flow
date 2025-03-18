@@ -52,10 +52,21 @@ function createTabSelector(stories) {
 // Function to update details container
 function updateDetails(story) {
     const detailsContainer = d3.select('.details-container');
-    detailsContainer.html(`
-        <h2>${story.title}</h2>
-        <p>${story.description}</p>
-    `);
+    
+    // Clear existing content
+    detailsContainer.html('');
+    
+    // Add title and description
+    detailsContainer.append('div')
+        .html(`
+            <h2>${story.title}</h2>
+            <p>${story.description}</p>
+        `);
+    
+    // Add charts if they exist
+    if (story.barCharts && story.barCharts.length > 0) {
+        updateStoryCharts(story);
+    }
 }
 
 // Function to update Sankey diagram highlighting

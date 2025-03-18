@@ -221,25 +221,11 @@ function initializeSankey() {
             });
         }
 
+        window.updateSankey = updateVisualization;
         // Initial render with a small delay to ensure container is ready
         setTimeout(updateVisualization, 0);
 
-        // Update on window resize
-        let resizeTimeout;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(function() {
-                // Verify data is still available
-                if (!window.healthcareData) {
-                    console.error("Healthcare data lost during resize");
-                    return;
-                }
-                
-                // Update visualization
-                updateVisualization();
-            }, 250);
-        });
-
+        
         console.log("Sankey diagram initialized successfully");
     } catch (error) {
         console.error("Error initializing Sankey diagram:", error);

@@ -101,6 +101,42 @@ header h1 {
 }
 
 
+/* Story charts styles */
+.story-charts {
+    margin-top: 5px;
+}
+
+.story-charts svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.story-charts .value-label {
+    font-weight: 500;
+}
+
+.section-label {
+    font-size: 12px;
+    fill: #666;
+}
+
+/* Story chart section colors */
+.bar-section.section-0 {
+    fill: #344436;
+}
+
+.bar-section.section-1 {
+    fill: #4a5d4c;
+}
+
+.bar-section.section-2 {
+    fill: #607662;
+}
+
+
+
+
 
 /*sankey container styles*/
 #sankey-container {
@@ -295,5 +331,8 @@ header h1 {
     border: 1px solid #feb2b2;
     color: #c53030;
 }
+
+
+
 
 
