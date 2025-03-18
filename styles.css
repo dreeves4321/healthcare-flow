@@ -26,6 +26,8 @@ header {
 header .container {
     max-width: 1200px;
     margin: 0 auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 main {
@@ -56,19 +58,25 @@ header h1 {
 
 .tabs-container {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+    row-gap: 10px;
+
 }
 
 .tab-button {
-    padding: 10px 20px;
-    border: none;
-    background-color: #f0f0f0;
+    padding: 3px 9px;
+    border-radius: 2px;
     cursor: pointer;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    border-radius: 4px;
     transition: all 0.3s ease;
+    background: none;
+    border: none;
+    
+    color: #4B3236;
+    
+    font-size: 13px;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .tab-button:hover {
@@ -76,8 +84,9 @@ header h1 {
 }
 
 .tab-button.active {
-    background-color: #344436;
-    color: white;
+    border-left: 2px solid #7A5C61;
+    background: rgba(122, 92, 97, 0.05);
+    font-weight: 600;
 }
 
 
@@ -85,7 +94,6 @@ header h1 {
 .details-container {
     min-height: 50px;
     background-color: #F7F2E6;
-    padding-top: 15px;
 }
 
 .details-container h2 {
@@ -156,6 +164,37 @@ header h1 {
     fill: #2c3e50;
 }
 
+.node {
+    fill: #5E7361;
+    stroke: #2980b9;
+    cursor: pointer;
+    transition: fill 0.3s ease;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.link {
+    fill: none;
+    stroke-opacity: 0.2;
+    transition: stroke-opacity 0.3s ease;
+}
+
+.depth1 {
+    fill: #5E7361;
+    stop-color: #5E7361;
+}
+
+.depth2 {
+    fill: #769435;
+    stop-color: #769435;
+}   
+
+.depth3 {
+    fill: #6F998B;
+    stop-color: #6F998B; 
+}
+
+/* Highlighted Elements in Sankey */
 .node-label.highlighted {
     opacity: 1;
     font-weight: bold;
@@ -165,17 +204,8 @@ header h1 {
     opacity: 0.2;
 }
 
-.node {
-    fill: #3498db;
-    stroke: #2980b9;
-    cursor: pointer;
-    transition: fill 0.3s ease;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
 .node.highlighted {
-    fill: #e74c3c;
+    fill: #4B3236;
     opacity: 1;
 }
 
@@ -183,35 +213,13 @@ header h1 {
     opacity: 0.2;
 }
 
-
-/* Highlighted Elements in Sankey */
-.node.highlighted rect {
-    fill: #344436;
-}
-
 .link.highlighted {
     stroke-opacity: 1;
 }
 
-.node.lowlighted rect,
-.link.lowlighted {
-    opacity: 0.2;
-} 
-
-.link {
-    fill: none;
-    stroke: #bdc3c7;
-    stroke-opacity: 0.4;
-    transition: stroke-opacity 0.3s ease;
-}
-
-.link.highlighted {
-    stroke-opacity: 0.8;
-}
-
 .link.lowlighted {
     stroke-opacity: 0.1;
-}
+} 
 
 .link.highlighted stop {
     stop-opacity: 1;
@@ -219,17 +227,14 @@ header h1 {
 
 /* Gradient colors */
 .gradient-start {
-    stop-color: #2980b9;
     stop-opacity: 0.6;
 }
 
 .gradient-middle {
-    stop-color: #bdc3c7;
     stop-opacity: 0.3;
 }
 
 .gradient-end {
-    stop-color: #2980b9;
     stop-opacity: 0.6;
 }
 
@@ -237,25 +242,40 @@ header h1 {
 /* Tooltip styles */
 .tooltip {
     position: absolute;
-    padding: 10px;
-    background: rgba(0.1, 0.1, 0.1, 1.0);
+    padding: 8px 10px;
+    background: #4B3236;
+    border-radius: 5px;
+    box-shadow: 0px 4px 19px 0px rgba(0, 0, 0, 0.15), 0px 1px 4px 0.5px rgba(0, 0, 0, 0.13);
+    z-index: 1000;
+    
     color: #fff;
-    border-radius: 4px;
-    font-size: 14px;
+    font-size: 11px;
+    font-weight: 400;
     pointer-events: none;
+    line-height: 14px;
+    letter-spacing: 0.3px
+}
+.tooltip:not(.flow-tooltip)::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;  
+    right: 16px;     
+    /*transform: translateX(-100%); */
+    
+    /* Create triangle shape */
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #4B3236; 
 }
 
-.node-tooltip {
-    font-size: 16px;
-    padding: 12px;
-    z-index: 1000;
-}
 
 .flow-tooltip {
     font-size: 10px;
     color: rgb(15, 15, 15);
     padding: 3px 4px;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.1);
+    
     z-index: 900;
 }
 

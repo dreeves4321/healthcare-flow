@@ -8,15 +8,15 @@ function createStoryBarChart(container, story, data) {
         // Create a container for this specific chart
         const chartContainer = container.append("div")
             .attr("class", "chart-container")
-            .style("margin-bottom", "2rem");
-
+            
         // Get the container dimensions
         const containerWidth = chartContainer.node().getBoundingClientRect().width;
-        const margin = { top: 40, right: 0, bottom: 40, left: 0 };
+        const margin = { top: 10, right: 0, bottom: 10, left: 0 };
         const width = containerWidth - margin.left - margin.right;
         const height = 100;
-        const barHeight = 20;
+        const barHeight = 15;
         const gap = 2;
+        const vgap = 5;
 
         // Create SVG
         const svg = chartContainer.append("svg")
@@ -82,15 +82,16 @@ function createStoryBarChart(container, story, data) {
         bars.append("rect")
             .attr("class", (d, i) => `bar-section section-${i % 3}`)
             .attr("x", d => xscale(d.cumulative))
-            .attr("y", height/2 - barHeight/2)
+            .attr("y", margin.top)
             .attr("width", d => xscale(d.value) - gap)
             .attr("height", barHeight);
 
         // Add labels below each section
+        const textHeight = 18;
         bars.append("text")
             .attr("class", "section-label")
-            .attr("x", d => xscale(d.cumulative) + 5)
-            .attr("y", height/2 + barHeight/2 + 20)
+            .attr("x", d => xscale(d.cumulative) + vgap)
+            .attr("y", margin.top + barHeight + textHeight + vgap) //set baseline of text
             .attr("text-anchor", "start")
             .text(d => `${d.percent.toFixed(1)}% - ${d.label}`);
         
@@ -98,9 +99,9 @@ function createStoryBarChart(container, story, data) {
         const connectorLines = bars.append("rect")
             .attr("class", (d, i) => `bar-section section-${i % 3}`)
             .attr("x", d => xscale(d.cumulative))
-            .attr("y", height/2 - barHeight/2)
+            .attr("y", margin.top)
             .attr("width", 1)
-            .attr("height", barHeight + 24)
+            .attr("height", barHeight + vgap + textHeight + 2)
             .attr("fill", "black");
 
         // Walk backward through labels and check for overlap. if they overlap, move the label down
@@ -120,22 +121,25 @@ function createStoryBarChart(container, story, data) {
             if ((currentBox.x + currentBox.width) > nextBox.x) {
                 // Move current label down by 15px
                 const currentY = parseFloat(d3.select(currentLabel).attr("y"));
-                d3.select(currentLabel).attr("y", currentY + 15);
+                d3.select(currentLabel).attr("y", currentY + textHeight + vgap);
 
-                // Move the connector line down by 15px
+                // Move the connector line down by the same amount
                 const connectorLine = connectorLines.nodes()[i];
                 d3.select(connectorLine)
-                    .attr("height", currentY - barHeight);
+                    .attr("height", currentY + textHeight + vgap + 2 - margin.top);
             }
 
        
         }
-        
-       
+        // Set SVG to encompass contents
+        const bbox = svg.node().getBBox();
+        const newHeight = bbox.height + margin.top + margin.bottom;
+        // Update the SVG height
+        svg.node().parentNode.setAttribute("height", newHeight);    
     
-        
-
     });
+
+    // Set SVG to encompass contents
 }
 
 // Function to update the story charts when a story is selected

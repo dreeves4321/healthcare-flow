@@ -43,15 +43,11 @@ function initializeSankey() {
                 .attr("class", "tooltip")
                 .style("opacity", 0);
 
-            const nodeTooltip = d3.select("body")
-                .append("div")
-                .attr("class", "tooltip node-tooltip")
-                .style("opacity", 0);
-
+            
             // Create the Sankey generator
             const sankey = d3.sankey()
-                .nodeWidth(10)
-                .nodePadding(20)
+                .nodeWidth(6)
+                .nodePadding(18)
                 .extent([[0, 0], [width, height]]);
 
             // Generate the Sankey data
@@ -77,18 +73,18 @@ function initializeSankey() {
                 .attr("y1", d => (d.source.y0 + d.source.y1) / 2)
                 .attr("y2", d => (d.target.y0 + d.target.y1) / 2);
 
-            // Add gradient stops
+            // Add gradient stops with colors based on source node depth
             gradients.append("stop")
                 .attr("offset", "0%")
-                .attr("class", "gradient-start");
+                .attr("class", d => `gradient-start depth${(d.source.depth % 3) + 1}`);
 
             gradients.append("stop")
                 .attr("offset", "50%")
-                .attr("class", "gradient-middle");
+                .attr("class", d => `gradient-middle depth${(d.source.depth % 3) + 1}`);
 
             gradients.append("stop")
                 .attr("offset", "100%")
-                .attr("class", "gradient-end");
+                .attr("class", d => `gradient-end depth${(d.source.depth % 3) + 1}`);
 
             // Add links
             svg.append("g")
@@ -105,9 +101,14 @@ function initializeSankey() {
                     tooltip.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    tooltip.html(`$${d.value.toLocaleString()} million`)
-                        .style("left", (event.pageX + 10) + "px")
-                        .style("top", (event.pageY - 28) + "px");
+                    tooltip.html(`$${d.value.toLocaleString()} billion`);
+                })
+                .on("mousemove", function(event, d) {
+                    const tooltipWidth = tooltip.node().offsetWidth;
+                    const tooltipHeight = tooltip.node().offsetHeight;
+                    tooltip
+                        .style("left", (event.pageX - tooltipWidth + 10) + "px")
+                        .style("top", (event.pageY - tooltipHeight - 15) + "px");
                 })
                 .on("mouseout", function() {
                     d3.select(this)
@@ -130,7 +131,7 @@ function initializeSankey() {
                 .attr("width", d => d.x1 - d.x0)
                 .attr("rx", 1)
                 .attr("ry", 1)
-                .attr("class", "node")
+                .attr("class", d => `node depth${(d.depth % 3) + 1}`)
                 .on("mouseover", function(event, d) {
                     // Prevent event from bubbling up
                     event.stopPropagation();
@@ -140,28 +141,28 @@ function initializeSankey() {
                     const outflow = d3.sum(links.filter(l => l.source === d), l => l.value);
                     
                     // Create tooltip content
-                    let tooltipContent = `<strong>${d.name}</strong><br>`;
+                    let tooltipContent = `${d.name}<br>`;
                     if (inflow > 0) {
-                        tooltipContent += `Inflow: $${inflow.toLocaleString()}M<br>`;
+                        tooltipContent += `Inflow: $<strong>${inflow.toLocaleString()}</strong>B<br>`;
                     }
                     if (outflow > 0) {
-                        tooltipContent += `Outflow: $${outflow.toLocaleString()}M`;
+                        tooltipContent += `Outflow: $<strong>${outflow.toLocaleString()}</strong>B`;
                     }
                     
                     // Show node tooltip
-                    nodeTooltip.transition()
+                    tooltip.transition()
                         .duration(200)
                         .style("opacity", .9);
-                    nodeTooltip.html(tooltipContent);
+                    tooltip.html(tooltipContent);
                     
                     // Position tooltip with edge protection
-                    const tooltipWidth = nodeTooltip.node().offsetWidth;
-                    const tooltipHeight = nodeTooltip.node().offsetHeight;
+                    const tooltipWidth = tooltip.node().offsetWidth;
+                    const tooltipHeight = tooltip.node().offsetHeight;
                     const viewportWidth = window.innerWidth;
                     const viewportHeight = window.innerHeight;
                     
-                    let left = event.pageX + 10;
-                    let top = event.pageY - 28;
+                    let left = event.pageX - tooltipWidth + 20;
+                    let top = event.pageY - tooltipHeight - 15;
                     
                     // Check right edge
                     if (left + tooltipWidth > viewportWidth) {
@@ -173,13 +174,13 @@ function initializeSankey() {
                         top = event.pageY - tooltipHeight - 10;
                     }
                     
-                    nodeTooltip
+                    tooltip
                         .style("left", left + "px")
                         .style("top", top + "px");
                 })
                 .on("mouseout", function() {
                     // Hide tooltip
-                    nodeTooltip.transition()
+                    tooltip.transition()
                         .duration(500)
                         .style("opacity", 0);
                 })
@@ -326,6 +327,10 @@ function highlightNodes(nodeIndices = []) {
             .classed('lowlighted', false);
         links.classed('highlighted', false)
             .classed('lowlighted', false);
+
+        // Remove all existing flow tooltips
+        d3.selectAll('.flow-tooltip').remove();
+
         return;
     }
    
