@@ -11,6 +11,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #FCF9F2;
+    font-size: 13px;
 }
 
 .container {
@@ -34,7 +35,7 @@ main {
     padding: 0 0px;
 }
 
-
+/* Header styles */
 header h1 {
     color: #FCF9F2;
     font-size: 32px;
@@ -48,45 +49,64 @@ header h1 {
     margin-top: 8px;
 }
 
-
-#sankey-container {
-    min-height: 600px;
-}
-
+/* Stories Tab Selector Styles */
 .stories-selector {
     min-height: 50px;
 }
 
+.tabs-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+    background-color: #e0e0e0;
+}
+
+.tab-button.active {
+    background-color: #344436;
+    color: white;
+}
+
+
+/* Details Container Styles */
 .details-container {
     min-height: 50px;
     background-color: #F7F2E6;
+    padding-top: 15px;
+}
+
+.details-container h2 {
+    color: rgba(38, 44, 39, 0.90);
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 600;
+    margin: 0 0 3px 0;
+}
+
+.details-container p {
+    margin-bottom: 0;
 }
 
 
-/* Tooltip styles */
-.tooltip {
-    position: absolute;
-    padding: 10px;
-    background: rgba(0.1, 0.1, 0.1, 1.0);
-    color: #fff;
-    border-radius: 4px;
-    font-size: 14px;
-    pointer-events: none;
+
+/*sankey container styles*/
+#sankey-container {
+    min-height: 600px;
 }
 
-.node-tooltip {
-    font-size: 16px;
-    padding: 12px;
-    z-index: 1000;
-}
-
-.flow-tooltip {
-    font-size: 10px;
-    color: rgb(15, 15, 15);
-    padding: 3px 4px;
-    background: rgba(255, 255, 255, 0.4);
-    z-index: 900;
-}
 
 /* Node and link styles */
 .node-label {
@@ -127,6 +147,21 @@ header h1 {
     opacity: 0.2;
 }
 
+
+/* Highlighted Elements in Sankey */
+.node.highlighted rect {
+    fill: #344436;
+}
+
+.link.highlighted {
+    stroke-opacity: 1;
+}
+
+.node.lowlighted rect,
+.link.lowlighted {
+    opacity: 0.2;
+} 
+
 .link {
     fill: none;
     stroke: #bdc3c7;
@@ -162,26 +197,34 @@ header h1 {
     stop-opacity: 0.6;
 }
 
-/* About section styles */
-.about {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+/* Tooltip styles */
+.tooltip {
+    position: absolute;
     padding: 10px;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
+    background: rgba(0.1, 0.1, 0.1, 1.0);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    pointer-events: none;
 }
 
-.about h2 {
-    color: #2c3e50;
-    margin-top: 0;
+.node-tooltip {
+    font-size: 16px;
+    padding: 12px;
+    z-index: 1000;
 }
 
-.about p {
-    color: #666;
-    margin-bottom: 1rem;
+.flow-tooltip {
+    font-size: 10px;
+    color: rgb(15, 15, 15);
+    padding: 3px 4px;
+    background: rgba(255, 255, 255, 0.4);
+    z-index: 900;
 }
 
+
+/* Bar Chart Styles */
 .charts-container {
     display: flex;
     justify-content: space-between;
@@ -231,6 +274,7 @@ header h1 {
     }
 }
 
+/* Loading and error messages */
 .loading, .error {
     text-align: center;
     padding: 2rem;
@@ -250,4 +294,6 @@ header h1 {
     background-color: #fff5f5;
     border: 1px solid #feb2b2;
     color: #c53030;
-} 
+}
+
+

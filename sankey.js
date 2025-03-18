@@ -201,119 +201,8 @@ function initializeSankey() {
                         behavior: 'smooth'
                     });
                     
-                    // Get all currently highlighted nodes
-                    const currentlyHighlighted = svg.selectAll(".node.highlighted");
-                    
-                    // If clicking the same node that's already highlighted, deactivate it
-                    if (currentlyHighlighted.node() === this) {
-                        // Reset all nodes and links
-                        svg.selectAll(".node, .node-label")
-                            .classed("highlighted", false)
-                            .classed("lowlighted", false);
-                        svg.selectAll(".link")
-                            .classed("highlighted", false)
-                            .classed("lowlighted", false);
-                        
-                        // Hide all tooltips
-                        nodeTooltip.transition()
-                            .duration(500)
-                            .style("opacity", 0);
-                        d3.selectAll(".flow-tooltip").remove();
-                        
-                        // Reset bar charts to show all nodes
-                        if (typeof barCharts !== 'undefined' && barCharts.update) {
-                            barCharts.update();
-                        }
-                        return;
-                    }
-                    
-                    // Reset all nodes and links first
-                    svg.selectAll(".node, .node-label")
-                        .classed("highlighted", false)
-                        .classed("lowlighted", false);
-                    svg.selectAll(".link")
-                        .classed("highlighted", false)
-                        .classed("lowlighted", false);
-                    
-                    // Remove all existing flow tooltips
-                    d3.selectAll(".flow-tooltip").remove();
-                    
-                    // Hide node tooltip
-                    nodeTooltip.transition()
-                        .duration(500)
-                        .style("opacity", 0);
-                    
-                    // Highlight selected node and its label
-                    d3.select(this)
-                        .classed("highlighted", true);
-                    d3.select(this.parentNode)
-                        .select(".node-label")
-                        .classed("highlighted", true);
-                    
-                    // Get all connected nodes
-                    const connectedNodes = new Set();
-                    links.forEach(link => {
-                        if (link.source === d || link.target === d) {
-                            connectedNodes.add(link.source);
-                            connectedNodes.add(link.target);
-                        }
-                    });
-                    
-                    // Dim only disconnected nodes and their labels
-                    svg.selectAll(".node, .node-label")
-                        .filter(node => !connectedNodes.has(node))
-                        .classed("lowlighted", true);
-                    
-                    // Get all connected links
-                    const connectedLinks = svg.selectAll(".link")
-                        .filter(l => l.source === d || l.target === d);
-                    
-                    // Highlight connected links
-                    connectedLinks
-                        .classed("highlighted", true);
-                    
-                    // Dim all other links
-                    svg.selectAll(".link:not(.highlighted)")
-                        .classed("lowlighted", true);
-                    
-                    // Update bar charts to show connected nodes
-                    // if (typeof barCharts !== 'undefined' && barCharts.update) {
-                    //     barCharts.update(d);
-                    // }
-                    
-                    // Show flow tooltips
-                    connectedLinks.each(function(l) {
-                        const path = d3.select(this);
-                        const pathNode = path.node();
-                        const pathRect = pathNode.getBoundingClientRect();
-                        const scrollX = window.scrollX;
-                        const scrollY = window.scrollY;
-                        
-                        // Create tooltip first without position
-                        const flowTooltip = d3.select("body")
-                            .append("div")
-                            .attr("class", "tooltip flow-tooltip")
-                            .style("opacity", 0)
-                            .style("position", "absolute")
-                            .html(`$${l.value.toLocaleString()} million`);
-                        
-                        // Get tooltip dimensions
-                        const tooltipWidth = flowTooltip.node().offsetWidth;
-                        const tooltipHeight = flowTooltip.node().offsetHeight;
-                        
-                        // Use the center of the path's bounding box and add scroll position
-                        const x = pathRect.left + (pathRect.width / 2) + scrollX;
-                        const y = pathRect.top + (pathRect.height / 2) + scrollY;
-                        
-                        // Now position the tooltip, centering it on the path
-                        flowTooltip
-                            .style("left", (x - tooltipWidth/2) + "px")
-                            .style("top", (y - tooltipHeight/2 - 10) + "px");
-                            
-                        flowTooltip.transition()
-                            .duration(200)
-                            .style("opacity", .9);
-                    });
+                    // Convert Set to Array for the highlight function
+                    highlightNodes([d.index]);
                 });
 
             // Add labels for nodes
@@ -328,24 +217,7 @@ function initializeSankey() {
 
             // Add click handler to the container to dismiss tooltip
             d3.select("#sankey-container").on("click", function() {
-                // Reset all nodes and links
-                svg.selectAll(".node, .node-label")
-                    .classed("highlighted", false)
-                    .classed("lowlighted", false);
-                svg.selectAll(".link")
-                    .classed("highlighted", false)
-                    .classed("lowlighted", false);
-                
-                // Hide all tooltips
-                nodeTooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-                d3.selectAll(".flow-tooltip").remove();
-                
-                // Reset bar charts to show all nodes
-                if (typeof barCharts !== 'undefined' && barCharts.update) {
-                    barCharts.update();
-                }
+                highlightNodes(); // Reset all highlighting
             });
         }
 
@@ -442,3 +314,102 @@ function wrapText(text, width, lineheight) {
 //     .append("svg")
 //     .attr("width", "100%")
 //     .attr("height", barChartHeight); 
+
+// Function to highlight nodes and their connected elements
+function highlightNodes(nodeIndices = []) {
+    // Get all nodes and links
+    const nodes = d3.selectAll('.node');
+    const links = d3.selectAll('.link');
+    const nodeLabels = d3.selectAll('.node-label');
+   
+    // Get all connected nodes
+    const connectedNodes = new Set();
+    links.each(function(link) {
+        if (nodeIndices.includes(link.source.index) || nodeIndices.includes(link.target.index)) {
+            connectedNodes.add(link.source.index);
+            connectedNodes.add(link.target.index);
+        }
+    });
+    
+     // If no nodes provided, return after reset
+     if (nodeIndices.length === 0) {
+        // First reset all elements
+        nodes.classed('highlighted', false)
+            .classed('lowlighted', false);
+        nodeLabels.classed('highlighted', false)
+            .classed('lowlighted', false);
+        links.classed('highlighted', false)
+            .classed('lowlighted', false);
+        return;
+    }
+   
+    // Reset
+    // First lowlight all elements
+    nodes.classed('highlighted', false)
+        .classed('lowlighted', true);
+    nodeLabels.classed('highlighted', false)
+        .classed('lowlighted', true);
+    links.classed('highlighted', false)
+        .classed('lowlighted', true);
+    
+    // Remove all existing flow tooltips
+    d3.selectAll('.flow-tooltip').remove();
+    
+    
+    // All connected nodes should be neither highlighted nor lowlighted
+    connectedNodes.forEach(index => {
+        nodes.filter(d => d.index === index)
+            .classed('highlighted', false)
+            .classed('lowlighted', false);
+        nodeLabels.filter(d => d.index === index)
+            .classed('highlighted', false)
+            .classed('lowlighted', false);
+    });
+
+    // Highlight selected nodes and their labels
+    nodes.filter((d, i) => nodeIndices.includes(i))
+        .classed('highlighted', true)
+        .classed('lowlighted', false);
+    
+    nodeLabels.filter((d, i) => nodeIndices.includes(i))
+        .classed('highlighted', true)
+        .classed('lowlighted', false);
+    
+    // Get connected links
+    const connectedLinks = links.filter(d => 
+        nodeIndices.includes(d.source.index) || 
+        nodeIndices.includes(d.target.index)
+    );
+    
+    // Highlight connected links
+    connectedLinks
+        .classed('highlighted', true)
+        .classed('lowlighted', false);
+    
+    // Add flow tooltips to connected links
+    connectedLinks.each(function(l) {
+        const path = d3.select(this);
+        const pathNode = path.node();
+        const pathRect = pathNode.getBoundingClientRect();
+        const scrollX = window.scrollX;
+        const scrollY = window.scrollY;
+        
+        // Use the center of the path's bounding box and add scroll position
+        const x = pathRect.left + (pathRect.width / 2) + scrollX;
+        const y = pathRect.top + (pathRect.height / 2) + scrollY;
+        
+        // Create a new tooltip for this flow
+        const flowTooltip = d3.select("body")
+            .append("div")
+            .attr("class", "tooltip flow-tooltip")
+            .style("opacity", 0)
+            .style("position", "absolute")
+            .style("left", (x - 30) + "px")
+            .style("top", (y - 20) + "px")
+            .html(`$${l.value.toLocaleString()} million`);
+            
+        flowTooltip.transition()
+            .duration(200)
+            .style("opacity", .9);
+    });
+} 
