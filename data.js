@@ -114,8 +114,8 @@ async function initializeData() {
 
         // Load nodes and links data
         const [nodesData, linksData] = await Promise.all([
-            loadCSVData('nodes.csv'),
-            loadCSVData('links.csv')
+            loadCSVData('data/nodes.csv'),
+            loadCSVData('data/links.csv')
         ]);
 
         // Process the data

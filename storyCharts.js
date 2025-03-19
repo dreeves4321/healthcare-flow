@@ -144,7 +144,7 @@ function createStoryBarChart(container, story, data) {
 
 // Function to update the story charts when a story is selected
 function updateStoryCharts(story) {
-    const container = d3.select('.details-container')
+    const container = d3.select('#story-container')
         .append('div')
         .attr('class', 'story-charts');
     

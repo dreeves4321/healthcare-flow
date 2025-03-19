@@ -1,7 +1,7 @@
 // Function to load stories from JSON file
 async function loadStories() {
     try {
-        const response = await fetch('stories.json');
+        const response = await fetch('data/stories.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -15,7 +15,7 @@ async function loadStories() {
 
 // Function to create tab selector
 function createTabSelector(stories) {
-    const selector = d3.select('.stories-selector');
+    const selector = d3.select('#stories-selector');
     
     // Create tabs container
     const tabsContainer = selector.append('div')
@@ -51,7 +51,7 @@ function createTabSelector(stories) {
 
 // Function to update details container
 function updateDetails(story) {
-    const detailsContainer = d3.select('.details-container');
+    const detailsContainer = d3.select('#story-container');
     
     // Clear existing content
     detailsContainer.html('');

@@ -15,7 +15,7 @@ body {
 }
 
 .container {
-    padding: 30px 30px 30px 30px;
+    padding: 0px 30px 0px 30px;
 }
 
 header {
@@ -52,8 +52,9 @@ header h1 {
 }
 
 /* Stories Tab Selector Styles */
-.stories-selector {
+#stories-selector {
     min-height: 50px;
+    margin-top: 15px;
 }
 
 .tabs-container {
@@ -91,21 +92,21 @@ header h1 {
 
 
 /* Details Container Styles */
-.details-container {
+#story-container {
     min-height: 50px;
     background-color: #F7F2E6;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
-.details-container h2 {
-    color: rgba(38, 44, 39, 0.90);
-    font-size: 13px;
-    font-style: italic;
-    font-weight: 600;
-    margin: 0 0 3px 0;
+#story-container h2 {
+    color: #344436;
+    margin-bottom: 1rem;
 }
 
-.details-container p {
-    margin-bottom: 0;
+#story-container p {
+    color: #666;
+    line-height: 1.6;
 }
 
 
@@ -143,11 +144,74 @@ header h1 {
 }
 
 
+/* Focus Container Styles */
+#focus-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding: 15px 30px 15px 30px;
+    background-color: #4B3236;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
 
+    color: #FCF9F2;
+    font-size: 13px;
+    line-height: normal;
+    font-weight: 400;
+    font-style: normal; 
+}
 
+#focus-container h2 {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: normal;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 18px;
+    height: 18px;
+}
+
+.focus-row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+#focus-container.focus {
+    max-height: 500px;
+    transition: max-height 0.3s ease-in-out;
+}
+
+#focus-container.no-focus {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    transition: all 0.3s ease-in-out;
+    
+}
 
 /*sankey container styles*/
 #sankey-container {
+    padding-top: 15px;
+    padding-bottom: 15px;
     min-height: 600px;
 }
 

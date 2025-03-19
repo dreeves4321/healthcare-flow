@@ -188,6 +188,7 @@ function initializeSankey() {
                     // Prevent event from bubbling up
                     event.stopPropagation();
                     
+                    /* Do not do the scrolling for now
                     // Get the container's position and scroll info
                     const container = document.getElementById('sankey-container');
                     const containerRect = container.getBoundingClientRect();
@@ -201,7 +202,11 @@ function initializeSankey() {
                         top: targetScrollY,
                         behavior: 'smooth'
                     });
+                    */
                     
+                    // Update the focus container with the node's name
+                    populateFocusContainer(d);
+
                     // Convert Set to Array for the highlight function
                     highlightNodes([d.index]);
                 });
@@ -219,6 +224,7 @@ function initializeSankey() {
             // Add click handler to the container to dismiss tooltip
             d3.select("#sankey-container").on("click", function() {
                 highlightNodes(); // Reset all highlighting
+                populateFocusContainer(null);
             });
         }
 
@@ -261,6 +267,55 @@ document.addEventListener('healthcareDataLoaded', function(event) {
 // Remove the DOMContentLoaded event listener if it exists
 document.removeEventListener('DOMContentLoaded', initializeSankey);
 
+
+// Function to populate the focus container with the node's name
+function populateFocusContainer(node) {
+    const focusContainer = document.querySelector('#focus-container');
+    
+    // if there is no node, clear the focus container
+    if (!node) {
+        focusContainer.innerHTML = '';
+        focusContainer.classList.add('no-focus');
+        focusContainer.classList.remove('focus');
+        return;
+    }
+
+
+    // Calculate total inflow and outflow
+    const links = window.healthcareData.links;
+    const inflow = d3.sum(links.filter(l => l.target === node.index), l => l.value);
+    const outflow = d3.sum(links.filter(l => l.source === node.index), l => l.value);
+    
+    // create the html for the focus container
+    let focusHtml = `
+        <h2>${node.name}</h2>
+        <div class="focus-row">
+            <p style="flex-shrink: 0">Inflow: <strong>${inflow.toLocaleString()}</strong>B</p>
+            <p style="flex-shrink: 0">Outflow: <strong>${outflow.toLocaleString()}</strong>B</p>
+            <p style="flex-shrink: 1">Additional details about this node will go here, with text that may wrap to multiple lines as needed.</p>
+        </div>
+    `;
+    
+    // add a close button
+    const closeButton = `
+        <button class="close-button" onclick="populateFocusContainer(null)">
+            <img src="images/close.svg" alt="Close">
+        </button>
+    `;
+    focusHtml = focusHtml + closeButton;
+
+
+    focusContainer.innerHTML = focusHtml;
+    // set the focus container to visible
+    focusContainer.classList.add('focus');
+    focusContainer.classList.remove('no-focus');
+
+    // get the height of the sankey container
+    const sankeyHeight = document.querySelector('#sankey-container').clientHeight;
+    // set the bottom of the focus container to the top of the sankey container
+    focusContainer.style.bottom = +sankeyHeight + 'px';
+}
+
 // Add text wrapping function
 function wrapText(text, width, lineheight) {
     text.each(function() {
@@ -296,11 +351,6 @@ function wrapText(text, width, lineheight) {
     });
 }
 
-// Commenting out the bar chart container creation
-// const barChartContainer = d3.select("#bar-chart-container")
-//     .append("svg")
-//     .attr("width", "100%")
-//     .attr("height", barChartHeight); 
 
 // Function to highlight nodes and their connected elements
 function highlightNodes(nodeIndices = []) {
@@ -382,6 +432,8 @@ function highlightNodes(nodeIndices = []) {
         const path = d3.select(this);
         const pathNode = path.node();
         const pathRect = pathNode.getBoundingClientRect();
+        
+        
         const scrollX = window.scrollX;
         const scrollY = window.scrollY;
         

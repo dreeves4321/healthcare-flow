@@ -26,21 +26,21 @@
         </div>
     </header>
     <main>
-        <div class="stories-selector container">
+        <div id="stories-selector" class="container">
             <p><i>Stories</i></p>
         </div>
-        <div class="details-container container">
+        <div id="story-container" class="container">
             <p>Details go in here</p>
         </div>
-        <div id="sankey-container" class="container"></div>
-        <!-- <div class="charts-container">
-            <div id="source-barchart" class="barchart"></div>
-            <div id="sink-barchart" class="barchart"></div>
-        </div> -->
+        <div style="position: relative;">
+            <div id="focus-container" class="container no-focus">
+                <p>Focus details go here</p>
+            </div>    
+            <div id="sankey-container" class="container"></div>
+        </div>
     </main>
 
     <!-- Load visualization code first -->
-    <script src="barcharts.js"></script>
     <script src="sankey.js"></script>
     <!-- Then load and process data -->
     <script src="data.js"></script>
