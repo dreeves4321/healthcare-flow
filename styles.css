@@ -155,11 +155,12 @@ header h1 {
     left: 0;
     right: 0;
     z-index: 1000;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-left: 45px;
+    margin-right: 45px;
     padding: 15px 30px 15px 30px;
     background-color: #4B3236;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     overflow: hidden;
 
     color: #FCF9F2;
@@ -185,6 +186,11 @@ header h1 {
     padding: 0;
     width: 18px;
     height: 18px;
+    color: #FCF9F2;
+}
+
+.close-button:hover {
+    color: #ffffff;
 }
 
 .focus-row {
@@ -230,11 +236,16 @@ header h1 {
 
 .node {
     fill: #5E7361;
-    stroke: #2980b9;
     cursor: pointer;
     transition: fill 0.3s ease;
     opacity: 1;
     transition: opacity 0.3s ease;
+}
+
+.node.group-node {
+    fill: #769435;
+    stroke-width: 3px;
+    stroke: #5E7361;
 }
 
 .link {
@@ -242,6 +253,8 @@ header h1 {
     stroke-opacity: 0.2;
     transition: stroke-opacity 0.3s ease;
 }
+
+
 
 .depth1 {
     fill: #5E7361;
@@ -319,19 +332,18 @@ header h1 {
     line-height: 14px;
     letter-spacing: 0.3px
 }
+
 .tooltip:not(.flow-tooltip)::after {
-    content: "";
+    content: '';
     position: absolute;
     bottom: -5px;  
     right: 16px;     
-    /*transform: translateX(-100%); */
-    
-    /* Create triangle shape */
+    width: 0;
+    height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid #4B3236; 
+    border-top: 5px solid #4B3236;
 }
-
 
 .flow-tooltip {
     font-size: 10px;
@@ -339,10 +351,11 @@ header h1 {
     padding: 3px 4px;
     background: rgba(255, 255, 255, 0.5);
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.1);
-    
-    z-index: 900;
 }
 
+.flow-tooltip::after {
+    display: none;
+}
 
 /* Bar Chart Styles */
 .charts-container {
@@ -414,6 +427,26 @@ header h1 {
     background-color: #fff5f5;
     border: 1px solid #feb2b2;
     color: #c53030;
+}
+
+.controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+}
+
+#groupToggle {
+    padding: 4px 7px;
+    background-color: #FCF9F2;
+    color: #4B3236;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+#groupToggle:hover {
+    background-color: #e0e0e0;
 }
 
 

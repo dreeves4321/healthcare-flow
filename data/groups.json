@@ -1,13 +1,8 @@
 {
     "groups": [
-        {
-            "name": "Drugs",
-            "nodes": [8, 38, 39, 40, 41]
-        },
-        {
-            "name": "Payers",
-            "nodes": [1, 2, 3, 4, 25]
-        }
-            
+       {
+        "name": "Drugs",
+        "nodes": [38, 39,40,41]
+       }
     ]
 }

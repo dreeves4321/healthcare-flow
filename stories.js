@@ -89,7 +89,4 @@ async function initializeStories() {
     }
 }
 
-// Wait for Sankey diagram to be initialized before loading stories
-document.addEventListener('healthcareDataLoaded', function() {
-    initializeStories();
-}); 
+// Remove the event listener since it's now handled in index.html 

@@ -3,6 +3,10 @@ function createStoryBarChart(container, story, data) {
     // Clear any existing charts
     container.selectAll("*").remove();
 
+    // Use the correct data structure
+    const nodes = data.originalNodes;
+    const links = data.originalLinks;
+
     // Create a container for each chart
     story.barCharts.forEach((chart, index) => {
         // Create a container for this specific chart
@@ -28,17 +32,17 @@ function createStoryBarChart(container, story, data) {
         // Process data for this chart
         const chartData = chart.sections.map(section => {
             // Get all nodes in this section
-            const sectionNodes = section.nodes.map(i => data.nodes[i - 1]);
+            const sectionNodes = section.nodes.map(i => nodes[i - 1]);
             
             // Calculate total flow based on direction
             let totalFlow = 0;
             if (chart.direction === "in") {
-                const incomingLinks = data.links.filter(link => 
+                const incomingLinks = links.filter(link => 
                     sectionNodes.some(node => link.target === node.id)
                 );
                 totalFlow = d3.sum(incomingLinks, link => link.value);
             } else {
-                const outgoingLinks = data.links.filter(link => 
+                const outgoingLinks = links.filter(link => 
                     sectionNodes.some(node => link.source === node.id)
                 );
                 totalFlow = d3.sum(outgoingLinks, link => link.value);

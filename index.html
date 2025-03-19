@@ -41,12 +41,9 @@
     </main>
 
     <!-- Load visualization code first -->
-    <script src="sankey.js"></script>
-    <!-- Then load and process data -->
     <script src="data.js"></script>
-    <!-- Load stories functionality -->
+    <script src="sankey.js"></script>
     <script src="stories.js"></script>
-    <!-- Add error handling -->
     <script src="storyCharts.js"></script>
     <script src="resize.js"></script>
     <script>
@@ -54,6 +51,30 @@
             console.error('Error: ' + msg + '\nURL: ' + url + '\nLine: ' + lineNo + '\nColumn: ' + columnNo + '\nError object: ' + JSON.stringify(error));
             return false;
         };
+
+        // Wait for data to be loaded before initializing
+        document.addEventListener('healthcareDataLoaded', function(event) {
+            console.log("Received healthcareDataLoaded event");
+            try {
+                if (!event.detail) {
+                    throw new Error("Event detail is missing");
+                }
+                console.log("Event detail received:", event.detail);
+                initializeSankey();
+                // Only initialize stories if they haven't been initialized yet
+                if (!window.storiesInitialized) {
+                    initializeStories();
+                    window.storiesInitialized = true;
+                }
+            } catch (error) {
+                console.error("Error handling healthcareDataLoaded event:", error);
+                // Show error message to user
+                const container = document.getElementById('sankey-container');
+                if (container) {
+                    container.innerHTML = `<div class="error">Error initializing visualization: ${error.message}</div>`;
+                }
+            }
+        });
     </script>
 </body>
 </html> 

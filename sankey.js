@@ -6,233 +6,29 @@ function initializeSankey() {
             throw new Error("Healthcare data is not loaded");
         }
 
-        // Create a copy of the original data for Sankey processing
-        const sankeyData = {
-            nodes: window.healthcareData.nodes.map(node => ({...node})),
-            links: window.healthcareData.links.map(link => ({...link}))
-        };
+        // Get the current nodes and links based on grouping state
+        const nodes = window.healthcareData.isGrouped 
+            ? [...window.healthcareData.originalNodes, ...window.healthcareData.groupNodes]
+            : window.healthcareData.originalNodes;
+        
+        const links = window.healthcareData.isGrouped
+            ? window.healthcareData.groupLinks
+            : window.healthcareData.originalLinks;
 
-        // Function to update the visualization
-        function updateVisualization() {
-            // Clear any existing SVG and tooltips
-            d3.select("#sankey-container svg").remove();
-            d3.selectAll(".tooltip").remove();
-
-            // Get container width and ensure it's not zero
-            const container = document.getElementById('sankey-container');
-            const containerWidth = Math.max(container.clientWidth, 800); // Fallback width if container is empty
-            
-            // Set up the dimensions and margins of the diagram
-            const margin = { top: 0, right: 160, bottom: 0, left: 0 };
-            const width = containerWidth - margin.left - margin.right;
-            const height = 600 - margin.top - margin.bottom;
-
-            // Create the SVG container
-            const svg = d3.select("#sankey-container")
-                .append("svg")
-                .attr("width", "100%")
-                .attr("height", height + margin.top + margin.bottom)
-                .attr("viewBox", [0, 0, width + margin.left + margin.right, height + margin.top + margin.bottom])
-                .attr("preserveAspectRatio", "none")
-                .append("g")
-                .attr("transform", `translate(${margin.left},${margin.top})`);
-
-            // Create tooltip divs
-            const tooltip = d3.select("body")
-                .append("div")
-                .attr("class", "tooltip")
-                .style("opacity", 0);
-
-            
-            // Create the Sankey generator
-            const sankey = d3.sankey()
-                .nodeWidth(6)
-                .nodePadding(18)
-                .extent([[0, 0], [width, height]]);
-
-            // Generate the Sankey data
-            let processedData;
-            try {
-                processedData = sankey(sankeyData);
-            } catch (error) {
-                console.error("Error generating Sankey data:", error);
-                throw new Error("Failed to generate Sankey diagram. Please check the data structure.");
-            }
-
-            const { nodes, links } = processedData;
-
-            // Add gradient definitions
-            const gradients = svg.append("defs")
-                .selectAll("linearGradient")
-                .data(links)
-                .join("linearGradient")
-                .attr("id", (d, i) => `gradient-${i}`)
-                .attr("gradientUnits", "userSpaceOnUse")
-                .attr("x1", d => d.source.x1)
-                .attr("x2", d => d.target.x0)
-                .attr("y1", d => (d.source.y0 + d.source.y1) / 2)
-                .attr("y2", d => (d.target.y0 + d.target.y1) / 2);
-
-            // Add gradient stops with colors based on source node depth
-            gradients.append("stop")
-                .attr("offset", "0%")
-                .attr("class", d => `gradient-start depth${(d.source.depth % 3) + 1}`);
-
-            gradients.append("stop")
-                .attr("offset", "50%")
-                .attr("class", d => `gradient-middle depth${(d.source.depth % 3) + 1}`);
-
-            gradients.append("stop")
-                .attr("offset", "100%")
-                .attr("class", d => `gradient-end depth${(d.source.depth % 3) + 1}`);
-
-            // Add links
-            svg.append("g")
-                .selectAll("path")
-                .data(links)
-                .join("path")
-                .attr("d", d3.sankeyLinkHorizontal())
-                .attr("stroke-width", d => 0.8*d.width)
-                .attr("class", "link")
-                .style("stroke", (d, i) => `url(#gradient-${i})`)
-                .on("mouseover", function(event, d) {
-                    d3.select(this)
-                        .classed("highlighted", true);
-                    tooltip.transition()
-                        .duration(200)
-                        .style("opacity", .9);
-                    tooltip.html(`$${d.value.toLocaleString()} billion`);
-                })
-                .on("mousemove", function(event, d) {
-                    const tooltipWidth = tooltip.node().offsetWidth;
-                    const tooltipHeight = tooltip.node().offsetHeight;
-                    tooltip
-                        .style("left", (event.pageX - tooltipWidth + 10) + "px")
-                        .style("top", (event.pageY - tooltipHeight - 15) + "px");
-                })
-                .on("mouseout", function() {
-                    d3.select(this)
-                        .classed("highlighted", false);
-                    tooltip.transition()
-                        .duration(500)
-                        .style("opacity", 0);
-                });
-
-            // Add nodes
-            const node = svg.append("g")
-                .selectAll("g")
-                .data(nodes)
-                .join("g")
-                .attr("transform", d => `translate(${d.x0},${d.y0})`);
-
-            // Add rectangles for nodes
-            node.append("rect")
-                .attr("height", d => d.y1 - d.y0)
-                .attr("width", d => d.x1 - d.x0)
-                .attr("rx", 1)
-                .attr("ry", 1)
-                .attr("class", d => `node depth${(d.depth % 3) + 1}`)
-                .on("mouseover", function(event, d) {
-                    // Prevent event from bubbling up
-                    event.stopPropagation();
-                    
-                    // Calculate total inflow and outflow
-                    const inflow = d3.sum(links.filter(l => l.target === d), l => l.value);
-                    const outflow = d3.sum(links.filter(l => l.source === d), l => l.value);
-                    
-                    // Create tooltip content
-                    let tooltipContent = `${d.name}<br>`;
-                    if (inflow > 0) {
-                        tooltipContent += `Inflow: $<strong>${inflow.toLocaleString()}</strong>B<br>`;
-                    }
-                    if (outflow > 0) {
-                        tooltipContent += `Outflow: $<strong>${outflow.toLocaleString()}</strong>B`;
-                    }
-                    
-                    // Show node tooltip
-                    tooltip.transition()
-                        .duration(200)
-                        .style("opacity", .9);
-                    tooltip.html(tooltipContent);
-                    
-                    // Position tooltip with edge protection
-                    const tooltipWidth = tooltip.node().offsetWidth;
-                    const tooltipHeight = tooltip.node().offsetHeight;
-                    const viewportWidth = window.innerWidth;
-                    const viewportHeight = window.innerHeight;
-                    
-                    let left = event.pageX - tooltipWidth + 20;
-                    let top = event.pageY - tooltipHeight - 15;
-                    
-                    // Check right edge
-                    if (left + tooltipWidth > viewportWidth) {
-                        left = event.pageX - tooltipWidth - 10;
-                    }
-                    
-                    // Check bottom edge
-                    if (top + tooltipHeight > viewportHeight) {
-                        top = event.pageY - tooltipHeight - 10;
-                    }
-                    
-                    tooltip
-                        .style("left", left + "px")
-                        .style("top", top + "px");
-                })
-                .on("mouseout", function() {
-                    // Hide tooltip
-                    tooltip.transition()
-                        .duration(500)
-                        .style("opacity", 0);
-                })
-                .on("click", function(event, d) {
-                    // Prevent event from bubbling up
-                    event.stopPropagation();
-                    
-                    /* Do not do the scrolling for now
-                    // Get the container's position and scroll info
-                    const container = document.getElementById('sankey-container');
-                    const containerRect = container.getBoundingClientRect();
-                    const scrollY = window.scrollY;
-                    
-                    // Calculate the target scroll position to bring the top of the diagram into view
-                    const targetScrollY = scrollY + containerRect.top - 20; // 20px padding from top
-                    
-                    // Animate the scroll
-                    window.scrollTo({
-                        top: targetScrollY,
-                        behavior: 'smooth'
-                    });
-                    */
-                    
-                    // Update the focus container with the node's name
-                    populateFocusContainer(d);
-
-                    // Convert Set to Array for the highlight function
-                    highlightNodes([d.index]);
-                });
-
-            // Add labels for nodes
-            node.append("text")
-                .attr("x", d => d.x1 - d.x0 + 5)
-                .attr("y", d => (d.y1 - d.y0) / 2)  // Position 1/3 from top of rectangle
-                .attr("dy", "0px")
-                .attr("text-anchor", "start")
-                .attr("class", "node-label")
-                .text(d => d.name)
-                .call(wrapText, 140, 12)
-
-            // Add click handler to the container to dismiss tooltip
-            d3.select("#sankey-container").on("click", function() {
-                highlightNodes(); // Reset all highlighting
-                populateFocusContainer(null);
-            });
-        }
+        // Filter nodes if grouped
+        const visibleNodes = window.healthcareData.isGrouped
+            ? nodes.filter(d => d.isGroup || !window.healthcareData.groups.some(g => g.nodes.includes(d.index + 1)))
+            : nodes;
 
         window.updateSankey = updateVisualization;
         // Initial render with a small delay to ensure container is ready
-        setTimeout(updateVisualization, 0);
+        setTimeout(() => {
+            updateVisualization({
+                nodes: visibleNodes,
+                links: links
+            });
+        }, 0);
 
-        
         console.log("Sankey diagram initialized successfully");
     } catch (error) {
         console.error("Error initializing Sankey diagram:", error);
@@ -268,52 +64,80 @@ document.addEventListener('healthcareDataLoaded', function(event) {
 document.removeEventListener('DOMContentLoaded', initializeSankey);
 
 
-// Function to populate the focus container with the node's name
+// Function to populate the focus container with node details
 function populateFocusContainer(node) {
     const focusContainer = document.querySelector('#focus-container');
-    
-    // if there is no node, clear the focus container
     if (!node) {
-        focusContainer.innerHTML = '';
-        focusContainer.classList.add('no-focus');
         focusContainer.classList.remove('focus');
+        focusContainer.classList.add('no-focus');
         return;
     }
 
+    // Get the current links based on grouping state
+    const links = window.healthcareData.isGrouped
+        ? window.healthcareData.groupLinks
+        : window.healthcareData.originalLinks;
 
-    // Calculate total inflow and outflow
-    const links = window.healthcareData.links;
-    const inflow = d3.sum(links.filter(l => l.target === node.index), l => l.value);
-    const outflow = d3.sum(links.filter(l => l.source === node.index), l => l.value);
-    
-    // create the html for the focus container
-    let focusHtml = `
-        <h2>${node.name}</h2>
+    // Calculate inflow and outflow
+    const inflow = d3.sum(links.filter(l => l.target === node), l => l.value);
+    const outflow = d3.sum(links.filter(l => l.source === node), l => l.value);
+
+    // Create focus content
+    let focusContent = `
         <div class="focus-row">
-            <p style="flex-shrink: 0">Inflow: <strong>${inflow.toLocaleString()}</strong>B</p>
-            <p style="flex-shrink: 0">Outflow: <strong>${outflow.toLocaleString()}</strong>B</p>
-            <p style="flex-shrink: 1">Additional details about this node will go here, with text that may wrap to multiple lines as needed.</p>
+            <h2>${node.name}${node.isGroup ? ' (Group)' : ''}</h2>
+            <button class="close-button">×</button>
+        </div>
+        <div class="focus-row">
+            <div>Inflow: $<strong>${inflow.toLocaleString()}</strong>B</div>
+            <div>Outflow: $<strong>${outflow.toLocaleString()}</strong>B</div>
         </div>
     `;
-    
-    // add a close button
-    const closeButton = `
-        <button class="close-button" onclick="populateFocusContainer(null)">
-            <img src="images/close.svg" alt="Close">
-        </button>
-    `;
-    focusHtml = focusHtml + closeButton;
 
+    // Add group members if it's a group node, whether grups are on or off
+    if (node.isGroup) {
+        const group = window.healthcareData.groups[node.groupIndex];
+        // first add a rule
+        focusContent += `
+            <hr>            
+            <div class="focus-row">
+                <div><p>Group Members:</p><p> ${group.nodes.map(n => window.healthcareData.originalNodes[n-1].name).join(', ')}</p></div>
+                <button onclick="toggleGroups()" id="groupToggle">
+                    Ungroup these
+                </button>
+              
+            </div>
+        `;
+    }else if (window.healthcareData.groups.some(g => g.nodes.includes(node.index + 1))) {
+        // if it's in a group, but the groups are off, 
+        focusContent += `
+            <hr>
+            <div class="focus-row">
+                <button onclick="toggleGroups()" id="groupToggle">
+                    Group this with similar entities
+                </button>
+            </div>
+        `;
+    }
 
-    focusContainer.innerHTML = focusHtml;
-    // set the focus container to visible
-    focusContainer.classList.add('focus');
+    focusContainer.innerHTML = focusContent;
     focusContainer.classList.remove('no-focus');
+    focusContainer.classList.add('focus');
+
 
     // get the height of the sankey container
     const sankeyHeight = document.querySelector('#sankey-container').clientHeight;
     // set the bottom of the focus container to the top of the sankey container
     focusContainer.style.bottom = +sankeyHeight + 'px';
+
+
+    // Add close button functionality
+    const closeButton = focusContainer.querySelector('.close-button');
+    closeButton.addEventListener('click', () => {
+        focusContainer.classList.remove('focus');
+        focusContainer.classList.add('no-focus');
+        highlightNodes(); // Reset highlighting
+    });
 }
 
 // Add text wrapping function
@@ -455,4 +279,256 @@ function highlightNodes(nodeIndices = []) {
             .duration(200)
             .style("opacity", .9);
     });
+}
+
+function toggleGroups() {
+    const data = window.healthcareData;
+    data.isGrouped = !data.isGrouped;
+
+    // Determine which nodes and links to use
+    const nodes = data.isGrouped 
+        ? [...data.originalNodes, ...data.groupNodes]
+        : data.originalNodes;
+    
+    const links = data.isGrouped
+        ? data.groupLinks
+        : data.originalLinks;
+
+    populateFocusContainer(null);
+
+    // Update visualization with new data
+    updateVisualization({ nodes, links });
+}
+
+// Global updateVisualization function
+function updateVisualization(data) {
+    if (!data) {
+        console.error("No data provided to updateVisualization");
+        return;
+    }
+
+    console.log("Starting visualization update with data:", {
+        nodes: data.nodes.length,
+        links: data.links.length
+    });
+
+    // Clear existing visualization
+    d3.select("#sankey-container").selectAll("*").remove();
+    
+    // Create tooltip if it doesn't exist
+    if (!d3.select(".tooltip").node()) {
+        d3.select("body")
+            .append("div")
+            .attr("class", "tooltip");
+    }
+
+    // Initialize variables at the top
+    const width = 1000;
+    const height = 800;
+    const rightPadding = 150;
+    let filteredNodes = data.nodes;
+    let links = data.links;
+
+    // Create SVG container if it doesn't exist
+    const svg = d3.select("#sankey-container")
+        .append("svg")
+        .attr("width", width + rightPadding)
+        .attr("height", height)
+        .attr("viewBox", [0, 0, width + rightPadding, height])
+        .attr("style", "max-width: 100%; height: auto;");
+
+    console.log("SVG container created");
+
+    // Filter nodes if in grouped mode
+    if (window.healthcareData.isGrouped) {
+        filteredNodes = filteredNodes.filter(d => d.isGroup || 
+            !window.healthcareData.groups.some(g => g.nodes.includes(d.index + 1)));
+    }
+
+    console.log("Filtered nodes:", filteredNodes.length);
+
+    // Create the Sankey generator
+    const sankey = d3.sankey()
+        .nodeWidth(15)
+        .nodePadding(10)
+        .extent([[1, 1], [width - 1, height - 1]]);
+
+    // Generate the Sankey data
+    let processedData;
+    try {
+        processedData = sankey({
+            nodes: filteredNodes.map(d => Object.assign({}, d)),
+            links: links.map(d => Object.assign({}, d))
+        });
+        console.log("Sankey data processed successfully:", {
+            nodes: processedData.nodes.length,
+            links: processedData.links.length
+        });
+    } catch (error) {
+        console.error("Error generating Sankey data:", error);
+        throw new Error("Failed to generate Sankey diagram. Please check the data structure.");
+    }
+
+    const { nodes: sankeyNodes, links: sankeyLinks } = processedData;
+    
+    // Add gradient definitions
+    const gradients = svg.append("defs")
+        .selectAll("linearGradient")
+        .data(sankeyLinks)
+        .join("linearGradient")
+        .attr("id", (d, i) => `gradient-${i}`)
+        .attr("gradientUnits", "userSpaceOnUse")
+        .attr("x1", d => d.source.x1)
+        .attr("x2", d => d.target.x0)
+        .attr("y1", d => (d.source.y0 + d.source.y1) / 2)
+        .attr("y2", d => (d.target.y0 + d.target.y1) / 2);
+
+    console.log("Gradients created");
+
+    // Add gradient stops with colors based on source node depth
+    gradients.append("stop")
+        .attr("offset", "0%")
+        .attr("class", d => `gradient-start depth${(d.source.depth % 3) + 1}`);
+
+    gradients.append("stop")
+        .attr("offset", "50%")
+        .attr("class", d => `gradient-middle depth${(d.source.depth % 3) + 1}`);
+
+    gradients.append("stop")
+        .attr("offset", "100%")
+        .attr("class", d => `gradient-end depth${(d.source.depth % 3) + 1}`);
+
+    // Add links
+    svg.append("g")
+        .selectAll("path")
+        .data(sankeyLinks)
+        .join("path")
+        .attr("d", d3.sankeyLinkHorizontal())
+        .attr("stroke-width", d => 0.8*d.width)
+        .attr("class", "link")
+        .style("stroke", (d, i) => `url(#gradient-${i})`)
+        .on("mouseover", function(event, d) {
+            d3.select(this)
+                .classed("highlighted", true);
+            const tooltip = d3.select(".tooltip");
+            tooltip.style("opacity", .9)
+                .html(`$${d.value.toLocaleString()} billion`);
+        })
+        .on("mousemove", function(event, d) {
+            const tooltip = d3.select(".tooltip");
+            const tooltipWidth = tooltip.node().offsetWidth;
+            const tooltipHeight = tooltip.node().offsetHeight;
+            tooltip.style("left", (event.pageX - tooltipWidth + 10) + "px")
+                .style("top", (event.pageY - tooltipHeight - 10) + "px");
+        })
+        .on("mouseout", function() {
+            d3.select(this)
+                .classed("highlighted", false);
+            d3.select(".tooltip").style("opacity", 0);
+        });
+
+    console.log("Links created");
+
+    // Add nodes
+    const node = svg.append("g")
+        .selectAll("g")
+        .data(sankeyNodes)  // Use all sankeyNodes without additional filtering
+        .join("g")
+        .attr("transform", d => `translate(${d.x0},${d.y0})`);
+
+    console.log("Nodes created");
+
+    // Add rectangles for nodes in a separate group
+    const nodeRectangles = node.append("g")
+        .attr("class", "node-rectangles");
+
+    nodeRectangles.append("rect")
+        .attr("height", d => d.y1 - d.y0)
+        .attr("width", d => d.x1 - d.x0)
+        .attr("rx", 1)
+        .attr("ry", 1)
+        .attr("class", d => `node depth${(d.depth % 3) + 1} ${d.isGroup ? 'group-node' : ''}`)
+        .on("mouseover", function(event, d) {
+            // Prevent event from bubbling up
+            event.stopPropagation();
+            
+            // Calculate total inflow and outflow
+            const inflow = d3.sum(sankeyLinks.filter(l => l.target === d), l => l.value);
+            const outflow = d3.sum(sankeyLinks.filter(l => l.source === d), l => l.value);
+            
+            // Create tooltip content
+            let tooltipContent = `${d.name}${d.isGroup ? ' (Group)' : ''}<br>`;
+            if (inflow > 0) {
+                tooltipContent += `Inflow: $<strong>${inflow.toLocaleString()}</strong>B<br>`;
+            }
+            if (outflow > 0) {
+                tooltipContent += `Outflow: $<strong>${outflow.toLocaleString()}</strong>B`;
+            }
+            
+            // Show node tooltip
+            const tooltip = d3.select(".tooltip");
+            tooltip.style("opacity", .9)
+                .html(tooltipContent);
+            
+            // Position tooltip with edge protection
+            const tooltipWidth = tooltip.node().offsetWidth;
+            const tooltipHeight = tooltip.node().offsetHeight;
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            let left = event.pageX - tooltipWidth + 20;
+            let top = event.pageY - tooltipHeight - 15;
+            
+            // Check right edge
+            if (left + tooltipWidth > viewportWidth) {
+                left = event.pageX - tooltipWidth - 10;
+            }
+            
+            // Check bottom edge
+            if (top + tooltipHeight > viewportHeight) {
+                top = event.pageY - tooltipHeight - 10;
+            }
+            
+            tooltip.style("left", left + "px")
+                .style("top", top + "px");
+        })
+        .on("mouseout", function() {
+            // Hide tooltip
+            d3.select(".tooltip").style("opacity", 0);
+        })
+        .on("click", function(event, d) {
+            // Prevent event from bubbling up
+            event.stopPropagation();
+            
+            // Update the focus container with the node's name
+            populateFocusContainer(d);
+
+            // Convert Set to Array for the highlight function
+            highlightNodes([d.index]);
+        });
+
+    // Add labels for nodes in a separate group that will be on top
+    const nodeLabels = node.append("g")
+        .attr("class", "node-labels");
+
+    nodeLabels.append("text")
+        .attr("x", d => d.x1 - d.x0 + 6)
+        .attr("y", d => (d.y1 - d.y0) / 3)  // Position 1/3 from top of rectangle
+        .attr("dy", "0px")
+        .attr("text-anchor", "start")
+        .attr("class", "node-label")
+        .text(d => d.name)
+        .style("opacity", d => (d.y1 - d.y0) > 0 ? 1 : 0)  // Hide labels for nodes with no height
+        .call(wrapText, 140, 12);
+
+    // Add click handler to the container to dismiss tooltip and clear highlights
+    svg.on("click", function(event) {
+        // Clear if clicking on anything except nodes
+        if (!event.target.classList.contains('node')) {
+            highlightNodes(); // Reset all highlighting
+            populateFocusContainer(null);
+        }
+    });
+
+    console.log("Visualization update complete");
 } 
