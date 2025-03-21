@@ -17,7 +17,7 @@ function initializeSankey() {
 
         // Filter nodes if grouped
         const visibleNodes = window.healthcareData.isGrouped
-            ? nodes.filter(d => d.isGroup || !window.healthcareData.groups.some(g => g.nodes.includes(d.index + 1)))
+            ? nodes.filter(d => d.isGroup || !window.healthcareData.groups.some(g => g.nodes.includes(d.index)))
             : nodes;
 
         window.updateSankey = updateVisualization;
@@ -97,24 +97,25 @@ function populateFocusContainer(node) {
     // Add group members if it's a group node, whether grups are on or off
     if (node.isGroup) {
         const group = window.healthcareData.groups[node.groupIndex];
-        // first add a rule
         focusContent += `
             <hr>            
             <div class="focus-row">
                 <div><p>Group Members:</p><p> ${group.nodes.map(n => window.healthcareData.originalNodes[n-1].name).join(', ')}</p></div>
                 <button onclick="toggleGroups()" id="groupToggle">
-                    Ungroup these
+                    Expand this group.
                 </button>
               
             </div>
         `;
-    }else if (window.healthcareData.groups.some(g => g.nodes.includes(node.index + 1))) {
-        // if it's in a group, but the groups are off, 
+    }else if (window.healthcareData.groups.some(g => g.nodes.includes(node.index))) {
+        // get the name of the group
+        const groupName = window.healthcareData.groups.find(g => g.nodes.includes(node.index)).name;
         focusContent += `
             <hr>
             <div class="focus-row">
+                <p>This is inside the group <i>${groupName}</i>.</p>
                 <button onclick="toggleGroups()" id="groupToggle">
-                    Group this with similar entities
+                    Collapse this group.
                 </button>
             </div>
         `;
@@ -141,6 +142,9 @@ function populateFocusContainer(node) {
 }
 
 // Add text wrapping function
+// text is a d3 selection of the text element
+// width is the target width of the text element
+// lineheight is the target height of the text element
 function wrapText(text, width, lineheight) {
     text.each(function() {
         const text = d3.select(this);
@@ -179,7 +183,7 @@ function wrapText(text, width, lineheight) {
 // Function to highlight nodes and their connected elements
 function highlightNodes(nodeIndices = []) {
     // Get all nodes and links
-    const nodes = d3.selectAll('.node');
+    const nodeRects = d3.selectAll('.node-rectangles rect');
     const links = d3.selectAll('.link');
     const nodeLabels = d3.selectAll('.node-label');
    
@@ -192,25 +196,26 @@ function highlightNodes(nodeIndices = []) {
         }
     });
     
-     // If no nodes provided, return after reset
-     if (nodeIndices.length === 0) {
+    // If no nodes provided, return after reset
+    if (nodeIndices.length === 0) {
         // First reset all elements
-        nodes.classed('highlighted', false)
+        nodeRects.classed('highlighted', false)
             .classed('lowlighted', false);
         nodeLabels.classed('highlighted', false)
             .classed('lowlighted', false);
         links.classed('highlighted', false)
             .classed('lowlighted', false);
-
+        // Reset the flag just in case
+        window.nodeClicked = false;
         // Remove all existing flow tooltips
         d3.selectAll('.flow-tooltip').remove();
-
         return;
     }
    
-    // Reset
-    // First lowlight all elements
-    nodes.classed('highlighted', false)
+    // Reset - First lowlight all elements
+    d3.selectAll('.node-rectangles')
+        .select('rect')
+        .classed('highlighted', false)
         .classed('lowlighted', true);
     nodeLabels.classed('highlighted', false)
         .classed('lowlighted', true);
@@ -220,19 +225,22 @@ function highlightNodes(nodeIndices = []) {
     // Remove all existing flow tooltips
     d3.selectAll('.flow-tooltip').remove();
     
-    
     // All connected nodes should be neither highlighted nor lowlighted
     connectedNodes.forEach(index => {
-        nodes.filter(d => d.index === index)
+        d3.selectAll('.node-rectangles')
+            .filter(r => r.index === index)  // Use the current connected node index
+            .select('rect')
             .classed('highlighted', false)
             .classed('lowlighted', false);
-        nodeLabels.filter(d => d.index === index)
+        nodeLabels.filter(d => d.index === index)  // Use the current connected node index
             .classed('highlighted', false)
-            .classed('lowlighted', false);
+            .classed('lowlighted', false); 
     });
 
     // Highlight selected nodes and their labels
-    nodes.filter((d, i) => nodeIndices.includes(i))
+    d3.selectAll('.node-rectangles')
+        .filter(r => r.index === nodeIndices[0])  // Assuming we're highlighting one node
+        .select('rect')
         .classed('highlighted', true)
         .classed('lowlighted', false);
     
@@ -256,7 +264,6 @@ function highlightNodes(nodeIndices = []) {
         const path = d3.select(this);
         const pathNode = path.node();
         const pathRect = pathNode.getBoundingClientRect();
-        
         
         const scrollX = window.scrollX;
         const scrollY = window.scrollY;
@@ -342,7 +349,7 @@ function updateVisualization(data) {
     // Filter nodes if in grouped mode
     if (window.healthcareData.isGrouped) {
         filteredNodes = filteredNodes.filter(d => d.isGroup || 
-            !window.healthcareData.groups.some(g => g.nodes.includes(d.index + 1)));
+            !window.healthcareData.groups.some(g => g.nodes.includes(d.index)));
     }
 
     console.log("Filtered nodes:", filteredNodes.length);
@@ -407,12 +414,27 @@ function updateVisualization(data) {
         .attr("stroke-width", d => 0.8*d.width)
         .attr("class", "link")
         .style("stroke", (d, i) => `url(#gradient-${i})`)
+        // hover behvior for links
         .on("mouseover", function(event, d) {
+            if (window.nodeClicked) {
+                return;
+            }
             d3.select(this)
                 .classed("highlighted", true);
             const tooltip = d3.select(".tooltip");
             tooltip.style("opacity", .9)
                 .html(`$${d.value.toLocaleString()} billion`);
+            
+            // Select the rect elements and apply classes
+            const sourceNode = d3.selectAll(".node-rectangles")
+                .filter(r => r.index === d.source.index)
+                .select("rect");
+            const targetNode = d3.selectAll(".node-rectangles")
+                .filter(r => r.index === d.target.index)
+                .select("rect");
+            
+            sourceNode.classed("midlighted", true);
+            targetNode.classed("midlighted", true);
         })
         .on("mousemove", function(event, d) {
             const tooltip = d3.select(".tooltip");
@@ -422,10 +444,16 @@ function updateVisualization(data) {
                 .style("top", (event.pageY - tooltipHeight - 10) + "px");
         })
         .on("mouseout", function() {
+            if (window.nodeClicked) {
+                return;
+            }
             d3.select(this)
                 .classed("highlighted", false);
             d3.select(".tooltip").style("opacity", 0);
-        });
+            // unhighlight all nodes
+            d3.selectAll(".node-rectangles rect").classed("highlighted", false);
+            d3.selectAll(".node-rectangles rect").classed("midlighted", false);
+       });
 
     console.log("Links created");
 
@@ -440,18 +468,33 @@ function updateVisualization(data) {
 
     // Add rectangles for nodes in a separate group
     const nodeRectangles = node.append("g")
-        .attr("class", "node-rectangles");
+        .attr("class", "node-rectangles")
+        .attr("data-index", d => d.index);
 
     nodeRectangles.append("rect")
+        .datum(d => d)  // Bind the node data directly to the rect element
         .attr("height", d => d.y1 - d.y0)
         .attr("width", d => d.x1 - d.x0)
         .attr("rx", 1)
         .attr("ry", 1)
-        .attr("class", d => `node depth${(d.depth % 3) + 1} ${d.isGroup ? 'group-node' : ''}`)
+        .attr("class", "node-rectangle")
+        .attr("class", d => `depth${(d.depth % 3) + 1} ${d.isGroup ? 'group-node' : ''}`)
         .on("mouseover", function(event, d) {
             // Prevent event from bubbling up
             event.stopPropagation();
             
+            // if a node was clicked, don't show the tooltip or highlight the node
+            if (window.nodeClicked) {
+                return;
+            }
+ 
+            d3.select(this)
+                .classed("highlighted", true);
+            // select the node label and apply the highlighted class
+            d3.selectAll(".node-label")
+                .filter(l => l.index === d.index)
+                .classed("highlighted", true);
+           
             // Calculate total inflow and outflow
             const inflow = d3.sum(sankeyLinks.filter(l => l.target === d), l => l.value);
             const outflow = d3.sum(sankeyLinks.filter(l => l.source === d), l => l.value);
@@ -495,8 +538,14 @@ function updateVisualization(data) {
         .on("mouseout", function() {
             // Hide tooltip
             d3.select(".tooltip").style("opacity", 0);
+            // unhighlight the node
+            d3.selectAll(".node-rectangles rect").classed("highlighted", false);
+            d3.selectAll(".node-label").classed("highlighted", false);
         })
         .on("click", function(event, d) {
+            // set a flag to indicate that the node was clicked
+            window.nodeClicked = true;
+
             // Prevent event from bubbling up
             event.stopPropagation();
             
@@ -518,7 +567,9 @@ function updateVisualization(data) {
         .attr("text-anchor", "start")
         .attr("class", "node-label")
         .text(d => d.name)
-        .style("opacity", d => (d.y1 - d.y0) > 0 ? 1 : 0)  // Hide labels for nodes with no height
+        // if the node is a group, make the text italic
+        .style("font-style", d => d.isGroup ? "italic" : "normal")
+        .classed("hidden", d => (d.y1 - d.y0) === 0)  // Hide labels for nodes with no height
         .call(wrapText, 140, 12);
 
     // Add click handler to the container to dismiss tooltip and clear highlights
@@ -527,6 +578,7 @@ function updateVisualization(data) {
         if (!event.target.classList.contains('node')) {
             highlightNodes(); // Reset all highlighting
             populateFocusContainer(null);
+            window.nodeClicked = false;
         }
     });
 

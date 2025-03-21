@@ -1,89 +1,145 @@
 {
-    "_comment": "All indices are 1-based to correspond with the csv input.",
+    "_comment": "All indices are 0-based to correspond with the csv input.",
     "stories": [
-    {
-      "label": "patient_flow",
-      "title": "Patient Healthcare Journey",
-      "description": "Follow the flow of healthcare spending from patients through the system",
-      "nodes": [],
-      "barCharts": [
+      {
+        "label": "Follow the money",
+        "title": "Follow the money",
+        "description": "Put instructions here on how to use this tool",
+        "nodes": [],
+        "barCharts": [] 
+      },
+      {
+        "label": "Whose Pocket?",
+        "title": "Where does my money go?",
+        "description": "Where does my $200 doctors bill go? Whose pocket is it filling?",
+        "nodes": [],
+        "barCharts": [ 
         {
-          "direction": "out",
+          "direction": "in",
           "sections": [
             {
-              "label": "Hospital Care",
-              "nodes": [6]
+              "label": "Medical Staff",
+              "nodes": [28, 29,30, 43]
             },
             {
-              "label": "Clinical Services Testing this is a very long label",
-              "nodes": [7, 8]
+              "label": "Support Staff",
+              "nodes": [27]
             },
             {
-              "label": "Other Care",
-              "nodes": [12, 13, 14, 15, 16, 17]
+              "label": "Profit and Executive Compensation",
+              "nodes": [25, 26]
+            },
+            {
+              "label": "R&D and Investment",
+              "nodes": [22, 23]
+            },
+            {
+              "label": "Facilities, Services and Supplies",
+              "nodes": [23, 31, 33, 34]
+            },
+            {
+              "label": "Other",
+              "nodes": [11, 21, 30, 32, 35, 36, 41, 42]
             }
           ]
         }
       ]
     },
     {
-      "label": "pharma_flow",
-      "title": "Pharmaceutical Supply Chain",
+      "label": "Drug Money",
+      "title": "Where do my prescription drug dollars go?",
       "description": "Trace the flow of prescription drug spending through the supply chain",
-      "nodes": [8, 38, 39, 40, 41, 42, 43, 44, 45],
+      "nodes": [7, 37, 38, 39, 40, 41, 42, 43, 44],
       "barCharts": [
         {
-          "direction": "in",
+          "direction": "flow",
           "sections": [
             {
-              "label": "Manufacturing",
-              "nodes": [41, 42, 43, 44]
+              "label": "Production",
+              "nodes": [82, 88]
             },
             {
-              "label": "Distribution",
-              "nodes": [38, 40]
+              "label": "R&D",
+              "nodes": [81]
             },
             {
-              "label": "Retail",
-              "nodes": [39, 45]
+              "label": "Profit and Executive Compensation",
+              "nodes": [73,76, 80, 85]
+            },
+            {
+              "label": "Other Overhead",
+              "nodes": [72, 74, 78, 83, 84, 86]
+            },
+            {
+              "label": "Pharmacists",
+              "nodes": [75]
             }
           ]
         }
       ]
     },
     {
-      "label": "insurance_flow",
-      "title": "Insurance Payment Flow",
-      "description": "Follow how insurance payments flow through the healthcare system",
-      "nodes": [17, 18, 19, 20, 21, 5, 6, 7, 8],
+      "label": "Insurance Money",
+      "title": "Where do  my premiums go?",
+      "description": "How much of our insurance money goes to buy the CEO a yacht? How much more efficient is Medicare?",
+      "nodes": [16, 17, 18, 19, 20],
       "barCharts": [
         {
-          "direction": "in",
+          "direction": "flow",
           "sections": [
             {
-              "label": "Public Insurance",
-              "nodes": [17, 18, 19, 20]
+              "label": "Public Insurance Overhead",
+              "nodes": [27, 29, 22]
             },
             {
-              "label": "Private Insurance",
-              "nodes": [21]
+              "label": "Public Insurance Payouts",
+              "nodes": [26, 28, 21]
             }
           ]
         },
         {
-          "direction": "out",
+          "direction": "flow",
           "sections": [
             {
-              "label": "Hospital Care",
-              "nodes": [6]
+              "label": "Private Insurance Profit",
+              "nodes": [25]
             },
             {
-              "label": "Clinical Services",
-              "nodes": [7, 8]
+              "label": "Private Insurance Overhead",
+              "nodes": [24]
             },
             {
-              "label": "Prescription Drugs",
-              "nodes": [9]
+              "label": "Private Insurance Payouts",
+              "nodes": [23]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Investments",
+      "title": "How are we investing in tomorrow?",
+      "description": "",
+      "nodes": [4, 22, 23, 21],
+      "barCharts": [
+        {
+          "direction": "in",
+          "sections": [
+            {
+              "label": "R & D",
+              "nodes": [22]
+            },
+            {
+              "label": "Structures & Equipment",
+              "nodes": [23]
+            },
+            {
+              "label": "Public Health",
+              "nodes": [21]
+            },
+            {
+              "label": "Services",
+              "nodes": [4]
             }
           ]
         }

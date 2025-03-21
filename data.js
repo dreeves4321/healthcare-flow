@@ -36,8 +36,8 @@ function processLinks(linksData) {
                 console.warn(`Invalid value for link ${link.Name}: ${link['Amount (B$)']}`);
             }
             return {
-                source: parseInt(link['From ID']) - 1, // Convert to 0-based index
-                target: parseInt(link['To ID']) - 1,   // Convert to 0-based index
+                source: parseInt(link['From ID']),
+                target: parseInt(link['To ID']),
                 value: value || 0
             };
         });
@@ -133,7 +133,7 @@ async function loadData() {
         const nodeToGroup = new Map();
         groupsData.groups.forEach((group, groupIndex) => {
             group.nodes.forEach(nodeIndex => {
-                nodeToGroup.set(nodeIndex - 1, groupIndex); // Convert to 0-based index
+                nodeToGroup.set(nodeIndex, groupIndex); 
             });
         });
 

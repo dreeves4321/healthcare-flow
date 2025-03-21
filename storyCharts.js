@@ -7,6 +7,9 @@ function createStoryBarChart(container, story, data) {
     const nodes = data.originalNodes;
     const links = data.originalLinks;
 
+    // Initialize variables at the top
+    const rightPadding = 0;
+
     // Create a container for each chart
     story.barCharts.forEach((chart, index) => {
         // Create a container for this specific chart
@@ -15,7 +18,7 @@ function createStoryBarChart(container, story, data) {
             
         // Get the container dimensions
         const containerWidth = chartContainer.node().getBoundingClientRect().width;
-        const margin = { top: 10, right: 0, bottom: 10, left: 0 };
+        const margin = { top: 10, right: rightPadding, bottom: 10, left: 0 };
         const width = containerWidth - margin.left - margin.right;
         const height = 100;
         const barHeight = 15;
@@ -31,21 +34,27 @@ function createStoryBarChart(container, story, data) {
 
         // Process data for this chart
         const chartData = chart.sections.map(section => {
-            // Get all nodes in this section
-            const sectionNodes = section.nodes.map(i => nodes[i - 1]);
             
             // Calculate total flow based on direction
             let totalFlow = 0;
             if (chart.direction === "in") {
+                // Get all nodes in this section
+                const sectionNodes = section.nodes.map(i => nodes[i]);
                 const incomingLinks = links.filter(link => 
                     sectionNodes.some(node => link.target === node.id)
                 );
                 totalFlow = d3.sum(incomingLinks, link => link.value);
-            } else {
+            } else if (chart.direction === "out") {
+                // Get all nodes in this section
+                const sectionNodes = section.nodes.map(i => nodes[i]);
                 const outgoingLinks = links.filter(link => 
                     sectionNodes.some(node => link.source === node.id)
                 );
                 totalFlow = d3.sum(outgoingLinks, link => link.value);
+            } else if (chart.direction === "flow") {
+                // section.nodes contains link indices, not node indices
+                const sectionLinks = section.nodes.map(i => links[i]);
+                totalFlow = d3.sum(sectionLinks, link => link.value);
             }
 
             return {
@@ -108,7 +117,7 @@ function createStoryBarChart(container, story, data) {
             .attr("height", barHeight + vgap + textHeight + 2)
             .attr("fill", "black");
 
-        // Walk backward through labels and check for overlap. if they overlap, move the label down
+        // Walk backward through labels and check for overlap and hanging off end. if they overlap, move the label down
         // Get all text elements and convert to array
         const labels = bars.selectAll("text").nodes();
         
@@ -116,24 +125,36 @@ function createStoryBarChart(container, story, data) {
         for (let i = labels.length - 2; i >= 0; i--) {
             const currentLabel = labels[i];
             const nextLabel = labels[i + 1];
-            
+   
             // Get bounding boxes
             const currentBox = currentLabel.getBBox();
-            const nextBox = nextLabel.getBBox();
+            let nextBox = nextLabel.getBBox();
+            
+            //check if the label is hanging off the end of the chart
+            const overlap = nextBox.x + nextBox.width - width;
+            if (overlap > 0) {
+                // Move current label down by 15px
+                const currentY = parseFloat(d3.select(nextLabel).attr("y"));
+                d3.select(nextLabel).attr("y", currentY + textHeight + vgap);
+                // move the next label left so it doesn't hang off the end of the chart
+                d3.select(nextLabel).attr("x", nextBox.x - overlap);
+                nextBox = nextLabel.getBBox();
+            }
+            
+            
             
             // Check if current label's right edge overlaps next label's left edge
             if ((currentBox.x + currentBox.width) > nextBox.x) {
                 // Move current label down by 15px
                 const currentY = parseFloat(d3.select(currentLabel).attr("y"));
-                d3.select(currentLabel).attr("y", currentY + textHeight + vgap);
+                const nextY = parseFloat(d3.select(nextLabel).attr("y"));
+                d3.select(currentLabel).attr("y", nextY + textHeight + vgap);
 
                 // Move the connector line down by the same amount
                 const connectorLine = connectorLines.nodes()[i];
                 d3.select(connectorLine)
-                    .attr("height", currentY + textHeight + vgap + 2 - margin.top);
+                    .attr("height", nextY + textHeight + vgap + 2 - margin.top);              
             }
-
-       
         }
         // Set SVG to encompass contents
         const bbox = svg.node().getBBox();

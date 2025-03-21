@@ -27,7 +27,7 @@ function createTabSelector(stories) {
         .enter()
         .append('button')
         .attr('class', 'tab-button')
-        .text(d => d.title)
+        .text(d => d.label)
         .on('click', function(event, d) {
             // Remove active class from all tabs
             tabsContainer.selectAll('.tab-button')
@@ -71,17 +71,18 @@ function updateDetails(story) {
 
 // Function to update Sankey diagram highlighting
 function updateSankeyHighlight(nodeIndices) {
-    // Convert 1-based indices to 0-based for the Sankey diagram
-    const zeroBasedIndices = nodeIndices.map(i => i - 1);
-    
+
     // Use the highlightNodes function from sankey.js
-    highlightNodes(zeroBasedIndices);
+    highlightNodes(nodeIndices);
 }
 
 // Initialize stories functionality
 async function initializeStories() {
     const stories = await loadStories();
+    
+    
     if (stories.length > 0) {
+    
         createTabSelector(stories);
         // Set initial state
         updateDetails(stories[0]);
@@ -90,3 +91,54 @@ async function initializeStories() {
 }
 
 // Remove the event listener since it's now handled in index.html 
+
+// Function to update story charts
+function updateStoryCharts(story) {
+    const chartsContainer = d3.select('#story-charts');
+    
+    // Clear existing charts
+    chartsContainer.html('');
+    
+    // Create new charts
+    story.barCharts.forEach(chart => {
+        const chartContainer = chartsContainer.append('div')
+            .attr('class', 'chart-container');
+        
+        // Create chart title
+        chartContainer.append('h3')
+            .text(chart.title);
+        
+        // Create chart sections
+        chart.sections.forEach(section => {
+            const sectionContainer = chartContainer.append('div')
+                .attr('class', 'section-container');
+            
+            // Create section title
+            sectionContainer.append('h4')
+                .text(section.title);
+            
+            // Create section bars
+            sectionContainer.selectAll('.bar')
+                .data(section.nodes)
+                .enter()
+                .append('div')
+                .attr('class', 'bar')
+                .attr('style', d => `width: ${d.value * 100}%`);
+            
+            // Create section nodes
+            sectionContainer.selectAll('.node')
+                .data(section.nodes)
+                .enter()
+                .append('div')
+                .attr('class', 'node')
+                .text(d => d.label);
+        });
+    });
+
+    // Update story charts
+    story.barCharts.forEach(chart => {
+        chart.sections.forEach(section => {
+            section.nodes = section.nodes;  // No need to subtract 1, already 0-based
+        });
+    });
+} 

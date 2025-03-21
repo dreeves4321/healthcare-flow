@@ -1,8 +1,8 @@
 {
     "groups": [
        {
-        "name": "Drugs",
-        "nodes": [38, 39,40,41]
+        "name": "Pharma supply chain",
+        "nodes": [37, 38, 39, 40]
        }
     ]
 }

@@ -1,46 +1,46 @@
 ﻿Name,ID,Size
-Patients,1,2124
-Taxpayers,2,2761
-Federal Taxes,3,1881
-State Taxes,4,479
-Patient Services,5,4140
-Hospital Care,6,1520
-Physician and Clinical Services,7,980
-Prescription Drugs (Retail),8,450
-Operational costs (public),9,182
-Operatioonal costs (private),10,151
-Nursing & Continuing Care Facilities,11,211
-Other Health Res. Care,12,294
-Dental,13,197
-Home Health,14,147
-Medical Products,15,196
-Other Prof. Services,16,147
-Medicare,17,1155
-Medicaid,18,872
-"VA, DOD, CHIP",19,199
-Private Insurance,20,1465
-Other programs & 3rd parties,21,403
-Public Health,22,160
-R & D,23,227
-Structures & Equipment,24,167
-Private funding,25,109
-Profit,26,305
-Executives,27,33
-Admin. & Non-health staff,28,721
-Clinical Staff,29,991
-Doctors,30,505
-Marketing,31,69
-Facilities & Infrastructure,32,249
-Financial,33,94
-Medical supplies & equipment,34,305
-Laboratory & Imaging,35,120
-Kidney Dialysis Centers,36,33
-Other Costs,37,117
-Pharmacy Benefit Manager,38,393
-Retail Pharmacy,39,425
-Drug Wholesaler,40,335
-Drug Manufancturer,41,508
-Other Pharma operational costs,42,117
-Production,43,227
-Retail pharmacy staff,44,36
-Other Professional Services,45,0
+Patients,0,2124
+Taxpayers,1,2761
+Federal Taxes,2,1881
+State Taxes,3,479
+Patient Services,4,4140
+Hospital Care,5,1520
+Physician and Clinical Services,6,980
+Prescription Drugs (Retail),7,450
+Operational costs (public),8,182
+Operatioonal costs (private),9,151
+Nursing & Continuing Care Facilities,10,211
+Other Health Res. Care,11,294
+Dental,12,197
+Home Health,13,147
+Medical Products,14,196
+Other Prof. Services,15,147
+Medicare,16,1155
+Medicaid,17,872
+"VA, DOD, CHIP",18,199
+Private Insurance,19,1465
+Other programs & 3rd parties,20,403
+Public Health,21,160
+R & D,22,227
+Structures & Equipment,23,167
+Private funding,24,109
+Profit,25,305
+Executives,26,33
+Admin. & Non-health staff,27,721
+Clinical Staff,28,991
+Doctors,29,505
+Marketing,30,69
+Facilities & Infrastructure,31,249
+Financial,32,94
+Medical supplies & equipment,33,305
+Laboratory & Imaging,34,120
+Kidney Dialysis Centers,35,33
+Other Costs,36,117
+Pharmacy Benefit Manager,37,393
+Retail Pharmacy,38,425
+Drug Wholesaler,39,335
+Drug Manufancturer,40,508
+Other Pharma operational costs,41,117
+Production,42,227
+Retail pharmacy staff,43,36
+Other Professional Services,44,0
