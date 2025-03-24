@@ -1,0 +1,106 @@
+{
+    "notes":[
+        {
+            "id": 1,
+            "content": "This is a note"
+        },
+        {
+            "id": 2,
+            "content": "This is another note"
+        }
+    ],
+    "references": [
+        {
+            "id": 1,
+            "content": "Centers for Medicare & Medicaid Services. (2023). <i>National Health Expenditures 2023</i>. Retrieved from <a href=\"https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/NationalHealthExpendData/NationalHealthAccountsHistorical.html\">https://www.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/NationalHealthExpendData/NationalHealthAccountsHistorical.html</a>"
+        },
+        {
+            "id": 2,
+            "content": "National Center for Science and Engineering Statistics. (2023). <i>NSF Higher Education Research and Development (HERD) Survey</i>. Retrieved from <a href=\"https://ncses.nsf.gov/surveys/higher-education-research-development/2023\">https://ncses.nsf.gov/surveys/higher-education-research-development/2023</a>"
+        },
+        {
+            "id": 3,
+            "content": "Giving USA Foundation.  <i>Giving USA</i>. Retrieved from <a href=\"https://givingusa.org/\">https://givingusa.org/</a>"
+        },
+        {
+            "id": 4,
+            "content": "Office of Management and Budget.  <i>President’s Budget</i>. Retrieved from <a href=\"https://www.whitehouse.gov/omb/budget/\">https://www.whitehouse.gov/omb/budget/</a>"
+        },
+        {
+            "id": 5,
+            "content": "Centers for Medicare & Medicaid Services. (2023). <i>CMS Expenditure</i>. Retrieved from <a href=\"https://www.cms.gov/data-research/statistics-trends-and-reports/national-health-expenditure-data/historical\">https://www.cms.gov/data-research/statistics-trends-and-reports/national-health-expenditure-data/historical</a>"
+        },
+        {
+            "id": 6,
+            "content": "Centers for Disease Control and Prevention.  <i>NHE Fact Sheet | Chronic Disease</i>. Retrieved from <a href=\"https://www.cdc.gov/chronic-disease/data-research/facts-stats/index.html\">https://www.cdc.gov/chronic-disease/data-research/facts-stats/index.html</a>"
+        },
+        {
+            "id": 7,
+            "content": "Bureau of Economic Analysis.  <i>BEA Medical Services by Disease</i>. Retrieved from <a href=\"https://apps.bea.gov/data/special-topics/health-care/viz/diseases/\">https://apps.bea.gov/data/special-topics/health-care/viz/diseases/</a>"
+        },
+        {
+            "id": 8,
+            "content": "National Center for Health Statistics. (2022). <i>NCHS Mortality</i>. Retrieved from <a href=\"https://odphp.health.gov/healthypeople/objectives-and-data/data-sources-and-methods/data-sources/national-vital-statistics-system-mortality-nvss-m\">https://odphp.health.gov/healthypeople/objectives-and-data/data-sources-and-methods/data-sources/national-vital-statistics-system-mortality-nvss-m</a>"
+        },
+        {
+            "id": 9,
+            "content": "Centers for Disease Control and Prevention.  <i>FastStats</i>. Retrieved from <a href=\"https://www.cdc.gov/nchs/fastats/default.htm\">https://www.cdc.gov/nchs/fastats/default.htm</a>"
+        },
+        {
+            "id": 10,
+            "content": "Kaiser Family Foundation.  <i>KFF - FAQs on Medicare Financing and Trust Fund Solvency</i>. Retrieved from <a href=\"https://www.kff.org/medicare/issue-brief/faqs-on-medicare-financing-and-trust-fund-solvency/\">https://www.kff.org/medicare/issue-brief/faqs-on-medicare-financing-and-trust-fund-solvency/</a>"
+        },
+        {
+            "id": 11,
+            "content": "Foley, R. N., & Collins, A. J. (2017). End-Stage Renal Disease in the United States: An Epidemic of Kidney Failure. <i>Journal of the American Medical Association, 317</i>(17), 1788–1790. Retrieved from <a href=\"https://doi.org/10.1001/jama.2017.3584\">https://doi.org/10.1001/jama.2017.3584</a>"
+        },
+        {
+            "id": 12,
+            "content": "United States Renal Data System. (2023). <i>2023 USRDS Annual Data Report: Epidemiology of Kidney Disease in the United States</i>. National Institutes of Health, National Institute of Diabetes and Digestive and Kidney Diseases, Bethesda, MD."
+        },
+        {
+            "id": 13,
+            "content": "Home Health Care News. (2021, March). <i>Home Health Profits</i>. Retrieved from <a href=\"https://homehealthcarenews.com/2021/03/home-health-profit-margins-projected-to-remain-strong-in-2021/\">https://homehealthcarenews.com/2021/03/home-health-profit-margins-projected-to-remain-strong-in-2021/</a>"
+        },
+        {
+            "id": 14,
+            "content": "FinModelsLab.  <i>Home Health Expenditure</i>. Retrieved from <a href=\"https://finmodelslab.com/blogs/operating-costs/home-health-care-agency-operating-costs\">https://finmodelslab.com/blogs/operating-costs/home-health-care-agency-operating-costs</a>"
+        },
+        {
+            "id": 15,
+            "content": "Market Realist. (2015, November). <i>Medical Device Costs</i>. Retrieved from <a href=\"https://marketrealist.com/2015/11/medical-device-cost-structure-us/\">https://marketrealist.com/2015/11/medical-device-cost-structure-us/</a>"
+        },
+        {
+            "id": 16,
+            "content": "Journals Sage.  <i>Nursing Home Finances</i>. Retrieved from <a href=\"https://journals.sagepub.com/doi/10.1177/27551938231221509\">https://journals.sagepub.com/doi/10.1177/27551938231221509</a>"
+        },
+        {
+            "id": 17,
+            "content": "The Lown Institute.  <i>Healthcare Profits</i>. Retrieved from <a href=\"https://lowninstitute.org/healthcare-corporations-spent-trillions-of-dollars-on-payouts-to-shareholders-study-finds/\">https://lowninstitute.org/healthcare-corporations-spent-trillions-of-dollars-on-payouts-to-shareholders-study-finds/</a>"
+        },
+        {
+            "id": 18,
+            "content": "JAMA Internal Medicine. (2025, February 10). Shareholder Payouts Among Large Publicly Traded Health Care Companies. Retrieved from <a href=\"https://jamanetwork.com/journals/jamainternalmedicine/article-abstract/2829736\">https://jamanetwork.com/journals/jamainternalmedicine/article-abstract/2829736</a>"
+        },
+        {
+            "id": 19,
+            "content": "Health Affairs.  <i>Pharma Chain</i>. Retrieved from <a href=\"https://www.healthaffairs.org/content/forefront/follow-money-flow-funds-pharmaceutical-distribution-system\">https://www.healthaffairs.org/content/forefront/follow-money-flow-funds-pharmaceutical-distribution-system</a>"
+        },
+        {
+            "id": 20,
+            "content": "Bureau of Labor Statistics.  <i>Labor Stats</i>. Retrieved from <a href=\"https://www.bls.gov/oes/current/\">https://www.bls.gov/oes/current/</a>"
+        },
+        {
+            "id": 21,
+            "content": "Investopedia.  <i>Pharma R&D</i>. Retrieved from <a href=\"https://www.investopedia.com/ask/answers/060115/how-much-drug-companys-spending-allocated-research-and-development-average.asp\">https://www.investopedia.com/ask/answers/060115/how-much-drug-companys-spending-allocated-research-and-development-average.asp</a>"
+        },
+        {
+            "id": 22,
+            "content": "Medical Group Management Association.  Retrieved from <a href=\"http://www.mgma.com\">http://www.mgma.com</a>"
+        },
+        {
+            "id": 23,
+            "content": "Economic Research Institute.  Retrieved from <a href=\"http://www.erieri.com\">http://www.erieri.com</a>"
+        }
+    ]
+}

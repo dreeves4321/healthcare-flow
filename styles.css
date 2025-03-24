@@ -55,6 +55,7 @@ header h1 {
 #stories-selector {
     min-height: 50px;
     margin-top: 15px;
+    margin-bottom: 5px;
 }
 
 .tabs-container {
@@ -62,11 +63,12 @@ header h1 {
     flex-wrap: wrap;
     gap: 20px;
     row-gap: 10px;
-
+    margin-left: -10px;
+    margin-top: 3px;
 }
 
 .tab-button {
-    padding: 3px 9px;
+    padding: 3px 10px;
     border-radius: 2px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -101,12 +103,15 @@ header h1 {
 
 #story-container h2 {
     color: #344436;
-    margin-bottom: 1rem;
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: normal;
 }
 
 #story-container p {
-    color: #666;
-    line-height: 1.6;
+    color: #262C27;
+    line-height: normal;
 }
 
 
@@ -199,6 +204,10 @@ header h1 {
     gap: 20px;
 }
 
+.focus-row .flow-label {
+    flex-shrink: 0;
+}
+
 #focus-container.focus {
     max-height: 500px;
     transition: max-height 0.3s ease-in-out;
@@ -232,13 +241,12 @@ header h1 {
 #sankey-container {
     padding-top: 15px;
     padding-bottom: 15px;
-    min-height: 600px;
 }
 
 
 /* Node and link styles */
 .node-label {
-    font-size: 12px;
+    font-size: 11px;
     fill: #2c3e50;
     opacity: 1;
     transition: opacity 0.3s ease;
@@ -414,6 +422,7 @@ header h1 {
 }
 
 /* Responsive design */
+/*
 @media (max-width: 768px) {
     .container {
         padding: 10px;
@@ -427,6 +436,7 @@ header h1 {
         font-size: 10px;
     }
 }
+*/
 
 /* Loading and error messages */
 .loading, .error {
@@ -456,6 +466,44 @@ header h1 {
     right: 10px;
     z-index: 100;
 }
+
+/* Bibliography styles */
+#bibliography-container {
+    margin-top: 15px;
+    margin-bottom: 30px;
+    padding-top: 30px;
+    background-color: #F7F2E6;
+    border-top-color: #C3C6B8;
+    border-top-width: 1px;
+    border-top-style: solid;
+}
+
+#bibliography-container h2 {
+    margin-bottom: 15px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #262C27;
+}
+
+.bibliography-list {
+    list-style-position: outside;
+    list-style-type: "•";
+    padding-left: 0px;
+    margin-left: -5px;
+}
+
+.bibliography-list li {
+    margin-bottom: 10px;
+    padding-left: 5px;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.bibliography-list li::marker {
+    color: #262C27;
+}
+
 
 
 

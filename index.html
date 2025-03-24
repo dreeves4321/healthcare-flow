@@ -27,7 +27,7 @@
     </header>
     <main>
         <div id="stories-selector" class="container">
-            <p><i>Stories</i></p>
+            <p>Stories:</p>
         </div>
         <div id="story-container" class="container">
             <p>Details go in here</p>
@@ -37,6 +37,12 @@
                 <p>Focus details go here</p>
             </div>    
             <div id="sankey-container" class="container"></div>
+        </div>
+        
+        <!-- Bibliography Section -->
+        <div id="bibliography-container" class="container">
+            <h2>Notes and References</h2>
+            <ul id="bibliography-list" class="bibliography-list"></ul>
         </div>
     </main>
 
@@ -74,6 +80,32 @@
                     container.innerHTML = `<div class="error">Error initializing visualization: ${error.message}</div>`;
                 }
             }
+        });
+        
+        // Load bibliography data
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('data/bibliography.json')
+                .then(response => response.json())
+                .then(data => {
+                    const bibliographyList = document.getElementById('bibliography-list');
+                    // Populate notes
+                    data.notes.forEach(note => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = note.content;
+                        bibliographyList.appendChild(listItem);
+                    }); 
+                    // Populate references
+                    data.references.forEach(reference => {
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = reference.content;
+                        bibliographyList.appendChild(listItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading bibliography data:', error);
+                    document.getElementById('bibliography-container').innerHTML = 
+                        '<p>Error loading bibliography data. Please try again later.</p>';
+                });
         });
     </script>
 </body>

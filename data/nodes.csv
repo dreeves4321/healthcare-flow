@@ -1,46 +1,53 @@
-﻿Name,ID,Size
-Patients,0,2124
-Taxpayers,1,2761
-Federal Taxes,2,1881
-State Taxes,3,479
-Patient Services,4,4140
-Hospital Care,5,1520
-Physician and Clinical Services,6,980
-Prescription Drugs (Retail),7,450
-Operational costs (public),8,182
-Operatioonal costs (private),9,151
-Nursing & Continuing Care Facilities,10,211
-Other Health Res. Care,11,294
-Dental,12,197
-Home Health,13,147
-Medical Products,14,196
-Other Prof. Services,15,147
-Medicare,16,1155
-Medicaid,17,872
-"VA, DOD, CHIP",18,199
-Private Insurance,19,1465
-Other programs & 3rd parties,20,403
-Public Health,21,160
-R & D,22,227
-Structures & Equipment,23,167
-Private funding,24,109
-Profit,25,305
-Executives,26,33
-Admin. & Non-health staff,27,721
-Clinical Staff,28,991
-Doctors,29,505
-Marketing,30,69
-Facilities & Infrastructure,31,249
-Financial,32,94
-Medical supplies & equipment,33,305
-Laboratory & Imaging,34,120
-Kidney Dialysis Centers,35,33
-Other Costs,36,117
-Pharmacy Benefit Manager,37,393
-Retail Pharmacy,38,425
-Drug Wholesaler,39,335
-Drug Manufancturer,40,508
-Other Pharma operational costs,41,117
-Production,42,227
-Retail pharmacy staff,43,36
-Other Professional Services,44,0
+﻿Name,ID,Size,Notes
+Patients,0,2124,"You, me, everybody who goes to a doctor and pays out of pocket or premiums."
+Taxpayers,1,2761,All sources of taxes.
+Federal Taxes,2,1881,
+State Taxes,3,479,
+Patient Services,4,4140,A catchall for different medical services provided to patients.
+Hospital Care,5,1520,
+Physician and Clinical Services,6,980,"This includes outpatient clinics, urgent care, private practices, government clinics, and medical laboratories."
+Retail Pharmacy Purchases,7,450,"Purchases of prescription drugs by patients. This includes purchases through online pharmacies, stand-alone pharmacies, and grocery stores and big box stores that offer pharmacy services."
+Public insurance overhead,8,182,The operational costs of public insurance such as Medicare and Medicaid. About 8% of payments for Medicare.
+Private insurance overhead,9,151,The operational costs of private insurance. About 10% of payments.
+Nursing & Continuing Care Facilities,10,211,Covers nursing and rehabilitative services provided in freestanding nursing home facilities. These services are generally provided for an extended period of time by registered or licensed practical nurses and other staff.
+Other Health Res. Care,11,294,"Includes Medicaid home and community based waivers, residential care facilities, ambulance services, school health and worksite health care.
+
+"
+Dental,12,197,
+Home Health,13,147,Includes care provided in the home by freestanding home health agencies (HHAs).
+Medical Products,14,196,"Covers retail sales of both durable and non-durable medical products such as non-prescription drugs, hearing aids, and wheelchairs."
+Other Prof. Services,15,147,"Includes services provided by private-duty nurses,chiropractors, podiatrists, optometrists, and physical, occupational and speech therapists, among others. We estimate the breakdown of these expenses as similar to outpatient services."
+Medicare,16,1155,
+Medicaid,17,872,
+"VA, DOD, CHIP",18,199,"Publicly funded programs by Veterans Affairs, Department of Defense, and Children's Health Insurance Program."
+Private Insurance,19,1465,
+Other programs & 3rd parties,20,403,"Includes work site health care, other private revenues, Indian Health Service, workers’ compensation, general assistance, maternal andchild health, vocational rehabilitation, Substance Abuse and Mental Health Services Administration, school health, and other federal and state and local programs."
+Public Health,21,160,"Covers government run public health campaigns, CDC and FDA
+"
+Research and Development,22,227,
+Structures & Equipment,23,167,"Capital investments in buildings and other structures as well more costly medical equipment.
+"
+Private funding,24,109,Private foundations and grants funding research and other investments.
+Profit,25,305,"This category intends to capture all profit, both by private owners and shareholders. For non-profit entities, this represents the profit margin that may be re-invested into the system for growth."
+Executives,26,33,
+Admin. & Non-health staff,27,743,"This category depends on the context, but is intended to capture administrative, managerial, operational, professional, and other support staff that do not directly provide medical care."
+Clinical Staff,28,1033,
+Doctors,29,560,"Includes all doctors: physicians, surgeons, dentists, chiropractors, etc.
+"
+Marketing,30,69,
+Facilities & Infrastructure,31,264,"Includes maintenance, rent,and facility support staff, as well as utilities and Information Technology costs.
+"
+Financial,32,94,"Debt, amortization costs, fees, taxes, and insurance.
+
+"
+Medical supplies & equipment,33,310,"OTC medication, durable & non-durable equipment, devices, and supplies"
+Laboratory & Imaging,34,120,
+Kidney Dialysis Centers,35,33,
+Other Costs,36,124,
+Pharmacy Benefit Manager,37,393,"Examples include Express Scripts, CVS Caremark, and OptumRX. Note that many of these share parent companies with retail pharmacies."
+Retail Pharmacy,38,425,"Businesses such as CVS Pharmacy, Walgreens, Walmart, Amazon Pharmacy, and Express Scripts."
+Drug Wholesaler,39,335,
+Drug Manufancturer,40,508,"Companies such as J&J, Novartis, and Pfizer."
+Other Pharma operational costs,41,117,
+Production,42,227,pharma and other products
+Retail pharmacy staff,43,36,

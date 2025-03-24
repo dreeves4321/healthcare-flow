@@ -79,18 +79,23 @@ function populateFocusContainer(node) {
         : window.healthcareData.originalLinks;
 
     // Calculate inflow and outflow
-    const inflow = d3.sum(links.filter(l => l.target === node), l => l.value);
-    const outflow = d3.sum(links.filter(l => l.source === node), l => l.value);
+    const inflow = d3.sum(links.filter(l => l.target === node.id), l => l.value);
+    const outflow = d3.sum(links.filter(l => l.source === node.id), l => l.value);
+    const totalflow = Math.max(inflow, outflow);
+
+    // get the notes of the node. if it's blank, set it to an empty string
+    const notes = node.notes || '';
+
 
     // Create focus content
     let focusContent = `
-        <div class="focus-row">
+        <div class="focus-row"> 
             <h2>${node.name}${node.isGroup ? ' (Group)' : ''}</h2>
             <button class="close-button">×</button>
         </div>
         <div class="focus-row">
-            <div>Inflow: $<strong>${inflow.toLocaleString()}</strong>B</div>
-            <div>Outflow: $<strong>${outflow.toLocaleString()}</strong>B</div>
+            <div class="flow-label">Total flow: $<strong>${totalflow.toLocaleString()}</strong>B</div>
+            <div>${notes}</div>
         </div>
     `;
 
@@ -102,7 +107,7 @@ function populateFocusContainer(node) {
             <div class="focus-row">
                 <div><p>Group Members:</p><p> ${group.nodes.map(n => window.healthcareData.originalNodes[n-1].name).join(', ')}</p></div>
                 <button onclick="toggleGroups()" id="groupToggle">
-                    Expand this group.
+                    Expand this group
                 </button>
               
             </div>
@@ -115,7 +120,7 @@ function populateFocusContainer(node) {
             <div class="focus-row">
                 <p>This is inside the group <i>${groupName}</i>.</p>
                 <button onclick="toggleGroups()" id="groupToggle">
-                    Collapse this group.
+                    Collapse this group
                 </button>
             </div>
         `;
@@ -330,9 +335,16 @@ function updateVisualization(data) {
     }
 
     // Initialize variables at the top
-    const width = 1000;
-    const height = 800;
-    const rightPadding = 150;
+    const rightPadding = 140; // space for the labels
+    const height = 800; // this is a first guess, will be adjusted below
+    const minWidth = 500; // minimum width of the sankey diagram
+    const margins = 40; // margins for the container. maybe i can get this from the css?
+    // get the width of the container
+    const container = document.getElementById('sankey-container');
+    const containerWidth = container ? container.offsetWidth : 0; //
+    
+    // set the size of the sankey diagram
+    const width = containerWidth >  minWidth + rightPadding + 2*margins? containerWidth - rightPadding - 2*margins : minWidth;
     let filteredNodes = data.nodes;
     let links = data.links;
 
@@ -570,7 +582,7 @@ function updateVisualization(data) {
         // if the node is a group, make the text italic
         .style("font-style", d => d.isGroup ? "italic" : "normal")
         .classed("hidden", d => (d.y1 - d.y0) === 0)  // Hide labels for nodes with no height
-        .call(wrapText, 140, 12);
+        .call(wrapText, 140, 13);
 
     // Add click handler to the container to dismiss tooltip and clear highlights
     svg.on("click", function(event) {

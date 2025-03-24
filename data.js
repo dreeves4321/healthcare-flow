@@ -15,7 +15,8 @@ function parseCSV(csvText) {
 function processNodes(nodesData) {
     return nodesData.map(node => ({
         name: node.Name,
-        id: parseInt(node.ID)
+        id: parseInt(node.ID),
+        notes: node.Notes || ''
     }));
 }
 

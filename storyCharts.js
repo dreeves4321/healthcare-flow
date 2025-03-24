@@ -106,7 +106,7 @@ function createStoryBarChart(container, story, data) {
             .attr("x", d => xscale(d.cumulative) + vgap)
             .attr("y", margin.top + barHeight + textHeight + vgap) //set baseline of text
             .attr("text-anchor", "start")
-            .text(d => `${d.percent.toFixed(1)}% - ${d.label}`);
+            .text(d => `${d.percent.toFixed(0)}% - ${d.label}`);
         
         // Add a line dropping down to each label
         const connectorLines = bars.append("rect")
