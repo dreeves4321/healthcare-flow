@@ -1,0 +1,842 @@
+[
+    {
+        "Name": "Private Premiums",
+        "ID": "0",
+        "Amount (B$)": "$1465.00",
+        "From ID": "0",
+        "To ID": "19"
+    },
+    {
+        "Name": "Medicare Premiums",
+        "ID": "1",
+        "Amount (B$)": "$153.00",
+        "From ID": "0",
+        "To ID": "16"
+    },
+    {
+        "Name": "OOP",
+        "ID": "2",
+        "Amount (B$)": "$506.00",
+        "From ID": "0",
+        "To ID": "4"
+    },
+    {
+        "Name": "Medicare Direct Taxes",
+        "ID": "3",
+        "Amount (B$)": "$401.00",
+        "From ID": "1",
+        "To ID": "16"
+    },
+    {
+        "Name": "Federal Taxes",
+        "ID": "4",
+        "Amount (B$)": "$1881.00",
+        "From ID": "1",
+        "To ID": "2"
+    },
+    {
+        "Name": "State Taxes",
+        "ID": "5",
+        "Amount (B$)": "$479.00",
+        "From ID": "1",
+        "To ID": "3"
+    },
+    {
+        "Name": "Medicare funding (federal)",
+        "ID": "6",
+        "Amount (B$)": "$447.00",
+        "From ID": "2",
+        "To ID": "16"
+    },
+    {
+        "Name": "Medicaid funding (federal)",
+        "ID": "7",
+        "Amount (B$)": "$592.00",
+        "From ID": "2",
+        "To ID": "17"
+    },
+    {
+        "Name": "Medicaid funding (state)",
+        "ID": "8",
+        "Amount (B$)": "$154.00",
+        "From ID": "3",
+        "To ID": "16"
+    },
+    {
+        "Name": "Medicaid funding (state)",
+        "ID": "9",
+        "Amount (B$)": "$280.00",
+        "From ID": "3",
+        "To ID": "17"
+    },
+    {
+        "Name": "VA etc. funding (federal)",
+        "ID": "10",
+        "Amount (B$)": "$187.00",
+        "From ID": "2",
+        "To ID": "18"
+    },
+    {
+        "Name": "VA etc. funding (state)",
+        "ID": "11",
+        "Amount (B$)": "$6.40",
+        "From ID": "3",
+        "To ID": "18"
+    },
+    {
+        "Name": "Public Health funding",
+        "ID": "12",
+        "Amount (B$)": "$160.00",
+        "From ID": "2",
+        "To ID": "21"
+    },
+    {
+        "Name": "Other funding",
+        "ID": "13",
+        "Amount (B$)": "$403.00",
+        "From ID": "2",
+        "To ID": "20"
+    },
+    {
+        "Name": "Federal research funding",
+        "ID": "14",
+        "Amount (B$)": "$56.00",
+        "From ID": "2",
+        "To ID": "22"
+    },
+    {
+        "Name": "private research funding",
+        "ID": "15",
+        "Amount (B$)": "$8.00",
+        "From ID": "24",
+        "To ID": "22"
+    },
+    {
+        "Name": "state research funding",
+        "ID": "16",
+        "Amount (B$)": "$9.00",
+        "From ID": "3",
+        "To ID": "22"
+    },
+    {
+        "Name": "private investment",
+        "ID": "17",
+        "Amount (B$)": "$101.00",
+        "From ID": "24",
+        "To ID": "23"
+    },
+    {
+        "Name": "federal investment",
+        "ID": "18",
+        "Amount (B$)": "$36.00",
+        "From ID": "2",
+        "To ID": "23"
+    },
+    {
+        "Name": "State investment",
+        "ID": "19",
+        "Amount (B$)": "$30.00",
+        "From ID": "3",
+        "To ID": "23"
+    },
+    {
+        "Name": "other programs payment",
+        "ID": "20",
+        "Amount (B$)": "$403.00",
+        "From ID": "20",
+        "To ID": "4"
+    },
+    {
+        "Name": "VA etc. payments",
+        "ID": "21",
+        "Amount (B$)": "$190.00",
+        "From ID": "18",
+        "To ID": "4"
+    },
+    {
+        "Name": "VA etc. overhead",
+        "ID": "22",
+        "Amount (B$)": "$9.30",
+        "From ID": "18",
+        "To ID": "8"
+    },
+    {
+        "Name": "Private Payments",
+        "ID": "23",
+        "Amount (B$)": "$1270.00",
+        "From ID": "19",
+        "To ID": "4"
+    },
+    {
+        "Name": "Private overhead",
+        "ID": "24",
+        "Amount (B$)": "$151.00",
+        "From ID": "19",
+        "To ID": "9"
+    },
+    {
+        "Name": "Private profit",
+        "ID": "25",
+        "Amount (B$)": "$44.00",
+        "From ID": "19",
+        "To ID": "25"
+    },
+    {
+        "Name": "Medicare Payments",
+        "ID": "26",
+        "Amount (B$)": "$956.00",
+        "From ID": "16",
+        "To ID": "4"
+    },
+    {
+        "Name": "Medicare overhead",
+        "ID": "27",
+        "Amount (B$)": "$74.00",
+        "From ID": "16",
+        "To ID": "8"
+    },
+    {
+        "Name": "Medicaid Payments",
+        "ID": "28",
+        "Amount (B$)": "$774.00",
+        "From ID": "17",
+        "To ID": "4"
+    },
+    {
+        "Name": "Medicaid overhead",
+        "ID": "29",
+        "Amount (B$)": "$98.00",
+        "From ID": "17",
+        "To ID": "8"
+    },
+    {
+        "Name": "Hospital Care",
+        "ID": "30",
+        "Amount (B$)": "$1519.00",
+        "From ID": "4",
+        "To ID": "5"
+    },
+    {
+        "Name": "Physician and Clinical Services",
+        "ID": "31",
+        "Amount (B$)": "$980.00",
+        "From ID": "4",
+        "To ID": "6"
+    },
+    {
+        "Name": "Retail Prescription Drugs",
+        "ID": "32",
+        "Amount (B$)": "$450.00",
+        "From ID": "4",
+        "To ID": "7"
+    },
+    {
+        "Name": "Nursing Care & Continuing Care Facilities",
+        "ID": "33",
+        "Amount (B$)": "$211.00",
+        "From ID": "4",
+        "To ID": "10"
+    },
+    {
+        "Name": "Other Health Residential and Personal Care",
+        "ID": "34",
+        "Amount (B$)": "$294.00",
+        "From ID": "4",
+        "To ID": "11"
+    },
+    {
+        "Name": "Dental",
+        "ID": "35",
+        "Amount (B$)": "$196.00",
+        "From ID": "4",
+        "To ID": "12"
+    },
+    {
+        "Name": "Home Health",
+        "ID": "36",
+        "Amount (B$)": "$147.00",
+        "From ID": "4",
+        "To ID": "13"
+    },
+    {
+        "Name": "Medical Products",
+        "ID": "37",
+        "Amount (B$)": "$196.00",
+        "From ID": "4",
+        "To ID": "14"
+    },
+    {
+        "Name": "Other Professional Services",
+        "ID": "38",
+        "Amount (B$)": "$147.00",
+        "From ID": "4",
+        "To ID": "15"
+    },
+    {
+        "Name": "private ins - exec",
+        "ID": "39",
+        "Amount (B$)": "$11.30",
+        "From ID": "9",
+        "To ID": "26"
+    },
+    {
+        "Name": "private ins - staff",
+        "ID": "40",
+        "Amount (B$)": "$91.00",
+        "From ID": "9",
+        "To ID": "27"
+    },
+    {
+        "Name": "private ins - marketing",
+        "ID": "41",
+        "Amount (B$)": "$19.00",
+        "From ID": "9",
+        "To ID": "30"
+    },
+    {
+        "Name": "private ins - facilities",
+        "ID": "42",
+        "Amount (B$)": "$15.00",
+        "From ID": "9",
+        "To ID": "31"
+    },
+    {
+        "Name": "private ins - finance",
+        "ID": "43",
+        "Amount (B$)": "$15.00",
+        "From ID": "9",
+        "To ID": "32"
+    },
+    {
+        "Name": "hospital - exec",
+        "ID": "44",
+        "Amount (B$)": "$15.00",
+        "From ID": "5",
+        "To ID": "26"
+    },
+    {
+        "Name": "hospital - staff",
+        "ID": "45",
+        "Amount (B$)": "$182.00",
+        "From ID": "5",
+        "To ID": "27"
+    },
+    {
+        "Name": "hospital - clinical",
+        "ID": "46",
+        "Amount (B$)": "$547.00",
+        "From ID": "5",
+        "To ID": "28"
+    },
+    {
+        "Name": "hospital - physicians",
+        "ID": "47",
+        "Amount (B$)": "$182.00",
+        "From ID": "5",
+        "To ID": "29"
+    },
+    {
+        "Name": "hospital - facilities",
+        "ID": "48",
+        "Amount (B$)": "$61.00",
+        "From ID": "5",
+        "To ID": "31"
+    },
+    {
+        "Name": "hospital - pharmaceuticals",
+        "ID": "49",
+        "Amount (B$)": "$137.00",
+        "From ID": "5",
+        "To ID": "40"
+    },
+    {
+        "Name": "hospital - supplies",
+        "ID": "50",
+        "Amount (B$)": "$258.00",
+        "From ID": "5",
+        "To ID": "33"
+    },
+    {
+        "Name": "hospital - laboratory",
+        "ID": "51",
+        "Amount (B$)": "$61.00",
+        "From ID": "5",
+        "To ID": "34"
+    },
+    {
+        "Name": "hospital - finance",
+        "ID": "52",
+        "Amount (B$)": "$1.00",
+        "From ID": "5",
+        "To ID": "32"
+    },
+    {
+        "Name": "hospital - other",
+        "ID": "53",
+        "Amount (B$)": "$46.00",
+        "From ID": "5",
+        "To ID": "36"
+    },
+    {
+        "Name": "hospital - profit",
+        "ID": "54",
+        "Amount (B$)": "$30.00",
+        "From ID": "5",
+        "To ID": "25"
+    },
+    {
+        "Name": "clinic - clinical",
+        "ID": "55",
+        "Amount (B$)": "$237.00",
+        "From ID": "6",
+        "To ID": "28"
+    },
+    {
+        "Name": "clinic - physician",
+        "ID": "56",
+        "Amount (B$)": "$303.00",
+        "From ID": "6",
+        "To ID": "29"
+    },
+    {
+        "Name": "clinic - laboratory",
+        "ID": "57",
+        "Amount (B$)": "$47.00",
+        "From ID": "6",
+        "To ID": "34"
+    },
+    {
+        "Name": "kidney dialysis",
+        "ID": "58",
+        "Amount (B$)": "$33.00",
+        "From ID": "6",
+        "To ID": "35"
+    },
+    {
+        "Name": "clinic - facilities",
+        "ID": "59",
+        "Amount (B$)": "$85.00",
+        "From ID": "6",
+        "To ID": "31"
+    },
+    {
+        "Name": "clinic - admin",
+        "ID": "60",
+        "Amount (B$)": "$123.00",
+        "From ID": "6",
+        "To ID": "27"
+    },
+    {
+        "Name": "clinic - finance",
+        "ID": "61",
+        "Amount (B$)": "$38.00",
+        "From ID": "6",
+        "To ID": "32"
+    },
+    {
+        "Name": "clinic - drugs",
+        "ID": "62",
+        "Amount (B$)": "$28.00",
+        "From ID": "6",
+        "To ID": "40"
+    },
+    {
+        "Name": "clinic - other",
+        "ID": "63",
+        "Amount (B$)": "$38.00",
+        "From ID": "6",
+        "To ID": "36"
+    },
+    {
+        "Name": "clinic - supplies",
+        "ID": "64",
+        "Amount (B$)": "$28.00",
+        "From ID": "6",
+        "To ID": "33"
+    },
+    {
+        "Name": "clinic - marketing",
+        "ID": "65",
+        "Amount (B$)": "$19.00",
+        "From ID": "6",
+        "To ID": "30"
+    },
+    {
+        "Name": "public ins - finance",
+        "ID": "66",
+        "Amount (B$)": "$23.00",
+        "From ID": "8",
+        "To ID": "32"
+    },
+    {
+        "Name": "public ins - staff",
+        "ID": "67",
+        "Amount (B$)": "$136.00",
+        "From ID": "8",
+        "To ID": "27"
+    },
+    {
+        "Name": "public ins - facilities",
+        "ID": "68",
+        "Amount (B$)": "$23.00",
+        "From ID": "8",
+        "To ID": "31"
+    },
+    {
+        "Name": "drugs - to PBM",
+        "ID": "69",
+        "Amount (B$)": "$392.00",
+        "From ID": "7",
+        "To ID": "37"
+    },
+    {
+        "Name": "drugs - oop to pharmacy",
+        "ID": "70",
+        "Amount (B$)": "$58.00",
+        "From ID": "7",
+        "To ID": "38"
+    },
+    {
+        "Name": "drugs - PBM to pharmacy",
+        "ID": "71",
+        "Amount (B$)": "$367.00",
+        "From ID": "37",
+        "To ID": "38"
+    },
+    {
+        "Name": "drugs - PBM operation",
+        "ID": "72",
+        "Amount (B$)": "$16.00",
+        "From ID": "37",
+        "To ID": "41"
+    },
+    {
+        "Name": "drugs - PBM profit",
+        "ID": "73",
+        "Amount (B$)": "$10.00",
+        "From ID": "37",
+        "To ID": "25"
+    },
+    {
+        "Name": "drugs - pharmacy operation",
+        "ID": "74",
+        "Amount (B$)": "$32.00",
+        "From ID": "38",
+        "To ID": "41"
+    },
+    {
+        "Name": "drugs - pharmacy staff",
+        "ID": "75",
+        "Amount (B$)": "$36.00",
+        "From ID": "38",
+        "To ID": "43"
+    },
+    {
+        "Name": "drugs - pharmacy profit",
+        "ID": "76",
+        "Amount (B$)": "$21.00",
+        "From ID": "38",
+        "To ID": "25"
+    },
+    {
+        "Name": "drugs - to wholesale",
+        "ID": "77",
+        "Amount (B$)": "$335.00",
+        "From ID": "38",
+        "To ID": "39"
+    },
+    {
+        "Name": "drugs - wholesale operation",
+        "ID": "78",
+        "Amount (B$)": "$10.00",
+        "From ID": "39",
+        "To ID": "41"
+    },
+    {
+        "Name": "drugs - wholesale to manufacture",
+        "ID": "79",
+        "Amount (B$)": "$325.00",
+        "From ID": "39",
+        "To ID": "40"
+    },
+    {
+        "Name": "drugs - manufacture profit",
+        "ID": "80",
+        "Amount (B$)": "$132.00",
+        "From ID": "40",
+        "To ID": "25"
+    },
+    {
+        "Name": "drugs - manufacture R&D",
+        "ID": "81",
+        "Amount (B$)": "$127.00",
+        "From ID": "40",
+        "To ID": "22"
+    },
+    {
+        "Name": "drugs - manufacture production",
+        "ID": "82",
+        "Amount (B$)": "$147.00",
+        "From ID": "40",
+        "To ID": "42"
+    },
+    {
+        "Name": "drugs - manufacture marketing",
+        "ID": "83",
+        "Amount (B$)": "$30.00",
+        "From ID": "40",
+        "To ID": "30"
+    },
+    {
+        "Name": "drugs - manufacture admin",
+        "ID": "84",
+        "Amount (B$)": "$10.00",
+        "From ID": "40",
+        "To ID": "32"
+    },
+    {
+        "Name": "drugs - manufacture exec",
+        "ID": "85",
+        "Amount (B$)": "$2.50",
+        "From ID": "40",
+        "To ID": "26"
+    },
+    {
+        "Name": "drugs - other expenses",
+        "ID": "86",
+        "Amount (B$)": "$59.00",
+        "From ID": "40",
+        "To ID": "41"
+    },
+    {
+        "Name": "medical products - profit",
+        "ID": "87",
+        "Amount (B$)": "$6.00",
+        "From ID": "14",
+        "To ID": "25"
+    },
+    {
+        "Name": "medical products - production",
+        "ID": "88",
+        "Amount (B$)": "$80.00",
+        "From ID": "14",
+        "To ID": "42"
+    },
+    {
+        "Name": "medical products - r&D",
+        "ID": "89",
+        "Amount (B$)": "$27.00",
+        "From ID": "14",
+        "To ID": "22"
+    },
+    {
+        "Name": "medical products - admin",
+        "ID": "90",
+        "Amount (B$)": "$82.00",
+        "From ID": "14",
+        "To ID": "27"
+    },
+    {
+        "Name": "nursing - pharmacy",
+        "ID": "91",
+        "Amount (B$)": "$17.00",
+        "From ID": "10",
+        "To ID": "40"
+    },
+    {
+        "Name": "nursing - profit",
+        "ID": "92",
+        "Amount (B$)": "$6.00",
+        "From ID": "10",
+        "To ID": "25"
+    },
+    {
+        "Name": "nursing - other",
+        "ID": "93",
+        "Amount (B$)": "$17.00",
+        "From ID": "10",
+        "To ID": "36"
+    },
+    {
+        "Name": "nursing -  clinical",
+        "ID": "94",
+        "Amount (B$)": "$70.00",
+        "From ID": "10",
+        "To ID": "28"
+    },
+    {
+        "Name": "nursing -  admin & non-health",
+        "ID": "95",
+        "Amount (B$)": "$74.00",
+        "From ID": "10",
+        "To ID": "27"
+    },
+    {
+        "Name": "nursing -  executive",
+        "ID": "96",
+        "Amount (B$)": "$4.00",
+        "From ID": "10",
+        "To ID": "26"
+    },
+    {
+        "Name": "nursing -  facilities",
+        "ID": "97",
+        "Amount (B$)": "$23.00",
+        "From ID": "10",
+        "To ID": "31"
+    },
+    {
+        "Name": "dental - clinical",
+        "ID": "98",
+        "Amount (B$)": "$49.00",
+        "From ID": "12",
+        "To ID": "28"
+    },
+    {
+        "Name": "dental - dentist",
+        "ID": "99",
+        "Amount (B$)": "$20.00",
+        "From ID": "12",
+        "To ID": "29"
+    },
+    {
+        "Name": "dental - admin",
+        "ID": "100",
+        "Amount (B$)": "$20.00",
+        "From ID": "12",
+        "To ID": "27"
+    },
+    {
+        "Name": "dental - facilities",
+        "ID": "101",
+        "Amount (B$)": "$29.00",
+        "From ID": "12",
+        "To ID": "31"
+    },
+    {
+        "Name": "dental - lab",
+        "ID": "102",
+        "Amount (B$)": "$12.00",
+        "From ID": "12",
+        "To ID": "34"
+    },
+    {
+        "Name": "dental - supplies",
+        "ID": "103",
+        "Amount (B$)": "$16.00",
+        "From ID": "12",
+        "To ID": "33"
+    },
+    {
+        "Name": "dental - other",
+        "ID": "104",
+        "Amount (B$)": "$16.00",
+        "From ID": "12",
+        "To ID": "36"
+    },
+    {
+        "Name": "dental - profit",
+        "ID": "105",
+        "Amount (B$)": "$35.00",
+        "From ID": "12",
+        "To ID": "25"
+    },
+    {
+        "Name": "other - clinical",
+        "ID": "106",
+        "Amount (B$)": "$42.00",
+        "From ID": "15",
+        "To ID": "28"
+    },
+    {
+        "Name": "other - doctor",
+        "ID": "107",
+        "Amount (B$)": "$55.00",
+        "From ID": "15",
+        "To ID": "29"
+    },
+    {
+        "Name": "other - admin",
+        "ID": "108",
+        "Amount (B$)": "$22.00",
+        "From ID": "15",
+        "To ID": "27"
+    },
+    {
+        "Name": "other - facilities",
+        "ID": "109",
+        "Amount (B$)": "$15.00",
+        "From ID": "15",
+        "To ID": "31"
+    },
+    {
+        "Name": "other - supplies",
+        "ID": "110",
+        "Amount (B$)": "$5.00",
+        "From ID": "15",
+        "To ID": "33"
+    },
+    {
+        "Name": "other - other",
+        "ID": "111",
+        "Amount (B$)": "$7.00",
+        "From ID": "15",
+        "To ID": "36"
+    },
+    {
+        "Name": "other - profit",
+        "ID": "112",
+        "Amount (B$)": "$0.00",
+        "From ID": "15",
+        "To ID": "25"
+    },
+    {
+        "Name": "home - clinical",
+        "ID": "113",
+        "Amount (B$)": "$88.00",
+        "From ID": "13",
+        "To ID": "28"
+    },
+    {
+        "Name": "home - admin",
+        "ID": "114",
+        "Amount (B$)": "$13.00",
+        "From ID": "13",
+        "To ID": "27"
+    },
+    {
+        "Name": "home - facilities",
+        "ID": "115",
+        "Amount (B$)": "$13.00",
+        "From ID": "13",
+        "To ID": "31"
+    },
+    {
+        "Name": "home - profit",
+        "ID": "116",
+        "Amount (B$)": "$21.00",
+        "From ID": "13",
+        "To ID": "25"
+    },
+    {
+        "Name": "home - finance",
+        "ID": "117",
+        "Amount (B$)": "$7.00",
+        "From ID": "13",
+        "To ID": "32"
+    },
+    {
+        "Name": "home - marketing",
+        "ID": "118",
+        "Amount (B$)": "$1.00",
+        "From ID": "13",
+        "To ID": "30"
+    },
+    {
+        "Name": "home - supplies",
+        "ID": "119",
+        "Amount (B$)": "$3.00",
+        "From ID": "13",
+        "To ID": "33"
+    }
+]

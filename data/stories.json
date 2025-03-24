@@ -4,15 +4,15 @@
     {
       "label": "Follow the money",
       "title": "Follow the money",
-      "description": "Put instructions here on how to use this tool",
+      "description": "An interactive map of the flow of money within the US healthcare system. See how your dollars work their way through the system from your paycheck to the paychecks of nurses and the pockets of shareholders and CEOs. Select stories above to focus on specific parts of the system.",
       "nodes": [],
       "barCharts": [] 
     },
     {
       "label": "Whose Pocket?",
       "title": "Where does my money go?",
-      "description": "Where does my $200 doctors bill go? Whose pocket is it filling?",
-      "nodes": [],
+      "description": "Where does my $200 doctor bill go? Whose pocket is it filling? We find a full third of your dollars go to medical staff such as nurses and doctors. Less than 8% goes to profit and executive compensation, mosttly within the pharmaceutical industry.",
+      "nodes": [11,22,23, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 41, 42, 43],
       "barCharts": [ 
         {
           "direction": "in",
@@ -48,7 +48,7 @@
     {
       "label": "Drug Money",
       "title": "Where do my prescription drug dollars go?",
-      "description": "Trace the flow of prescription drug spending through the supply chain",
+      "description": "Prescription drugs form a convoluted part of the healthcare system. Between the prescription in your hand the factory that makes the pill, money flows through a maze of middlemen. At each step, a small portion is siphoned off for profit and overhead, while the remainder makes its way to produciton. When all lis said and done, more dollars end up as profit and executive compensation than in researching new drugs.",
       "nodes": [7, 37, 38, 39, 40, 41, 42, 43, 44],
       "barCharts": [
         {
@@ -79,9 +79,9 @@
       ]
     },
     {
-      "label": "Insurance Money",
-      "title": "Where do  my premiums go?",
-      "description": "How much of our insurance money goes to buy the CEO a yacht? How much more efficient is Medicare?",
+      "label": "Insurance",
+      "title": "Where do my premiums go?",
+      "description": "How much of our insurance money goes to care vs overhead? By that measure, public health systems are more efficient than private insurance. Even discounting the $44 billion dollars in profit going to shareholders and executives, private insurance is still less efficient than Medicare.",
       "nodes": [16, 17, 18, 19, 20],
       "barCharts": [
         {
@@ -119,8 +119,8 @@
     {
       "label": "Investments",
       "title": "How are we investing in tomorrow?",
-      "description": "Are we just keeping up? Or are we investing in better treatments for tomorrow?",
-      "nodes": [4, 22, 23, 21],
+      "description": "Are we investing in better treatments for tomorrow? In public health to preven the next crisis? Nearly 90% of spending is on care, so maybe we're just keeping up.",
+      "nodes": [22, 23, 21],
       "barCharts": [
         {
           "direction": "in",

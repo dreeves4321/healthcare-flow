@@ -1,3 +1,7 @@
+// Global variable to track selected story
+window.selectedStory = null;
+
+
 // Function to load stories from JSON file
 async function loadStories() {
     try {
@@ -37,17 +41,24 @@ function createTabSelector(stories) {
             d3.select(this)
                 .classed('active', true);
             
-            // Update details
-            updateDetails(d);
-            
-            // Update Sankey diagram
-            updateSankeyHighlight(d.nodes);
+            // Update selected story
+            selectStory(d);
         });
     
     // Set first tab as active by default
     tabsContainer.select('.tab-button')
         .classed('active', true);
 }
+
+// funciton to select a story
+function selectStory(story) {
+    window.selectedStory = story;
+    updateDetails(story);
+    updateSankeyHighlight(story.nodes);
+}
+// Export functions for use in other files
+window.selectStory = selectStory;
+
 
 // Function to update details container
 function updateDetails(story) {
@@ -71,7 +82,6 @@ function updateDetails(story) {
 
 // Function to update Sankey diagram highlighting
 function updateSankeyHighlight(nodeIndices) {
-
     // Use the highlightNodes function from sankey.js
     highlightNodes(nodeIndices);
 }
@@ -80,22 +90,18 @@ function updateSankeyHighlight(nodeIndices) {
 async function initializeStories() {
     const stories = await loadStories();
     
-    
     if (stories.length > 0) {
-    
         createTabSelector(stories);
         // Set initial state
-        updateDetails(stories[0]);
-        updateSankeyHighlight(stories[0].nodes);
+        selectStory(stories[0]);
     }
 }
 
-// Remove the event listener since it's now handled in index.html 
 
 // Function to update story charts
 function updateStoryCharts(story) {
-    const chartsContainer = d3.select('#story-charts');
-    
+    const chartsContainer = d3.select('#story-charts');    
+        
     // Clear existing charts
     chartsContainer.html('');
     
@@ -138,7 +144,7 @@ function updateStoryCharts(story) {
     // Update story charts
     story.barCharts.forEach(chart => {
         chart.sections.forEach(section => {
-            section.nodes = section.nodes;  // No need to subtract 1, already 0-based
+            section.nodes = section.nodes;  
         });
     });
 } 

@@ -112,6 +112,7 @@ header h1 {
 #story-container p {
     color: #262C27;
     line-height: normal;
+    max-width: 700px;
 }
 
 
@@ -189,8 +190,8 @@ header h1 {
     border: none;
     cursor: pointer;
     padding: 0;
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
     color: #FCF9F2;
 }
 

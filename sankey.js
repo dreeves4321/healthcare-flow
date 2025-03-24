@@ -73,6 +73,7 @@ function populateFocusContainer(node) {
         return;
     }
 
+    window.nodeClicked = true;
     // Get the current links based on grouping state
     const links = window.healthcareData.isGrouped
         ? window.healthcareData.groupLinks
@@ -87,11 +88,11 @@ function populateFocusContainer(node) {
     const notes = node.notes || '';
 
 
-    // Create focus content
+    // Create focus contentf
     let focusContent = `
         <div class="focus-row"> 
             <h2>${node.name}${node.isGroup ? ' (Group)' : ''}</h2>
-            <button class="close-button">×</button>
+            <button class="close-button"><img src="images/close.svg" alt="X" style="width: 100%; height: 100%;"></button>
         </div>
         <div class="focus-row">
             <div class="flow-label">Total flow: $<strong>${totalflow.toLocaleString()}</strong>B</div>
@@ -142,6 +143,7 @@ function populateFocusContainer(node) {
     closeButton.addEventListener('click', () => {
         focusContainer.classList.remove('focus');
         focusContainer.classList.add('no-focus');
+        window.selectStory(window.selectedStory);
         highlightNodes(); // Reset highlighting
     });
 }
@@ -210,8 +212,6 @@ function highlightNodes(nodeIndices = []) {
             .classed('lowlighted', false);
         links.classed('highlighted', false)
             .classed('lowlighted', false);
-        // Reset the flag just in case
-        window.nodeClicked = false;
         // Remove all existing flow tooltips
         d3.selectAll('.flow-tooltip').remove();
         return;
@@ -244,7 +244,7 @@ function highlightNodes(nodeIndices = []) {
 
     // Highlight selected nodes and their labels
     d3.selectAll('.node-rectangles')
-        .filter(r => r.index === nodeIndices[0])  // Assuming we're highlighting one node
+        .filter(r => nodeIndices.includes(r.index))  // for all nodes in the nodeIndices array
         .select('rect')
         .classed('highlighted', true)
         .classed('lowlighted', false);
@@ -285,7 +285,7 @@ function highlightNodes(nodeIndices = []) {
             .style("position", "absolute")
             .style("left", (x - 30) + "px")
             .style("top", (y - 20) + "px")
-            .html(`$${l.value.toLocaleString()} million`);
+            .html(`$${l.value.toLocaleString()} billion`);
             
         flowTooltip.transition()
             .duration(200)
@@ -463,7 +463,7 @@ function updateVisualization(data) {
                 .classed("highlighted", false);
             d3.select(".tooltip").style("opacity", 0);
             // unhighlight all nodes
-            d3.selectAll(".node-rectangles rect").classed("highlighted", false);
+            //d3.selectAll(".node-rectangles rect").classed("highlighted", false);
             d3.selectAll(".node-rectangles rect").classed("midlighted", false);
        });
 
@@ -550,6 +550,11 @@ function updateVisualization(data) {
         .on("mouseout", function() {
             // Hide tooltip
             d3.select(".tooltip").style("opacity", 0);
+            
+            // if a node was clicked, don't show the tooltip or highlight the node
+            if (window.nodeClicked) {
+                return;
+            }
             // unhighlight the node
             d3.selectAll(".node-rectangles rect").classed("highlighted", false);
             d3.selectAll(".node-label").classed("highlighted", false);
@@ -588,9 +593,13 @@ function updateVisualization(data) {
     svg.on("click", function(event) {
         // Clear if clicking on anything except nodes
         if (!event.target.classList.contains('node')) {
-            highlightNodes(); // Reset all highlighting
-            populateFocusContainer(null);
-            window.nodeClicked = false;
+            // clear the focus contianer if node is clicked
+            if (window.nodeClicked) {
+                populateFocusContainer(null);
+                window.selectStory(window.selectedStory);
+                window.nodeClicked = false;
+                highlightNodes(); // Reset all highlighting
+            }
         }
     });
 

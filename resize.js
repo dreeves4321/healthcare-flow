@@ -22,15 +22,10 @@ function handleResize() {
         });
     }
 
-    // Update story charts if they exist
-    if (window.updateStoryCharts) {
-        const currentStory = d3.select('.tab-button.active').datum();
-        if (currentStory) {
-            // Clear existing charts first
-            d3.select('.story-charts').remove();
-            // Then update with new charts
-            window.updateStoryCharts(currentStory);
-        }
+    // Update story charts if they exist and a story is selected
+    if (window.selectStory && window.selectedStory) {
+        // Then update with new charts
+        window.selectStory(window.selectedStory);
     }
 }
 

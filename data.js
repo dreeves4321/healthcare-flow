@@ -1,16 +1,3 @@
-// Function to parse CSV data
-function parseCSV(csvText) {
-    const lines = csvText.split('\n');
-    const headers = lines[0].split(',').map(h => h.trim());
-    return lines.slice(1).map(line => {
-        const values = line.split(',').map(v => v.trim());
-        return headers.reduce((obj, header, index) => {
-            obj[header] = values[index];
-            return obj;
-        }, {});
-    });
-}
-
 // Function to process nodes data
 function processNodes(nodesData) {
     return nodesData.map(node => ({
@@ -76,30 +63,20 @@ function validateData(nodes, links) {
     console.log("Data validation completed successfully");
 }
 
-// Function to load and process CSV data
-async function loadCSVData(url) {
+// Function to load and process JSON data
+async function loadJSONData(url) {
     try {
-        console.log(`Attempting to load CSV from ${url}...`);
+        console.log(`Attempting to load JSON from ${url}...`);
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         console.log(`Successfully fetched ${url}`);
-        const csvText = await response.text();
-        console.log(`CSV text length: ${csvText.length} characters`);
-        const result = Papa.parse(csvText, {
-            header: true,
-            skipEmptyLines: true
-        });
-        
-        if (result.errors.length > 0) {
-            console.warn(`Warnings while parsing ${url}:`, result.errors);
-        }
-        
-        console.log(`Successfully parsed ${url}, found ${result.data.length} rows`);
-        return result.data;
+        const data = await response.json();
+        console.log(`Successfully parsed ${url}, found ${data.length} rows`);
+        return data;
     } catch (error) {
-        console.error(`Error loading CSV from ${url}:`, error);
+        console.error(`Error loading JSON from ${url}:`, error);
         throw error;
     }
 }
@@ -115,8 +92,8 @@ async function loadData() {
 
         // Load nodes and links data
         const [nodesData, linksData] = await Promise.all([
-            loadCSVData('data/nodes.csv'),
-            loadCSVData('data/links.csv')
+            loadJSONData('data/nodes.json'),
+            loadJSONData('data/links.json')
         ]);
 
         // Process the data
@@ -210,9 +187,6 @@ function processGroupLinks(links, nodeToGroup, nodeLength) {
     });
 }
 
-// Call the load function
-loadData();
-
-// Initialize when the page loads
+// Keep this one
 console.log("Setting up DOMContentLoaded event listener...");
 document.addEventListener('DOMContentLoaded', loadData); 
