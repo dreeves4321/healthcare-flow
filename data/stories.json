@@ -4,7 +4,7 @@
     {
       "label": "Follow the money",
       "title": "Follow the money",
-      "description": "An interactive map of the flow of money within the US healthcare system. See how your dollars work their way through the system from your paycheck to the paychecks of nurses and the pockets of shareholders and CEOs. Select stories above to focus on specific parts of the system.",
+      "description": "An interactive map of the flow of money within the US healthcare system. See how your dollars work their way through the system from your paycheck to the paychecks of nurses and the pockets of shareholders and CEOs. Select stories above to focus on specific parts of the system. Top level expenditures are from 2023 CMS data, with supporting breakdowns and industry trends derived from various sources and years indicated in the footnotes.",
       "nodes": [],
       "barCharts": [] 
     },
