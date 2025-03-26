@@ -143,8 +143,9 @@ function populateFocusContainer(node) {
     closeButton.addEventListener('click', () => {
         focusContainer.classList.remove('focus');
         focusContainer.classList.add('no-focus');
-        window.selectStory(window.selectedStory);
         highlightNodes(); // Reset highlighting
+        window.selectStory(window.selectedStory);
+        
     });
 }
 
@@ -596,9 +597,9 @@ function updateVisualization(data) {
             // clear the focus contianer if node is clicked
             if (window.nodeClicked) {
                 populateFocusContainer(null);
-                window.selectStory(window.selectedStory);
-                window.nodeClicked = false;
                 highlightNodes(); // Reset all highlighting
+                window.selectStory(window.selectedStory);
+                window.nodeClicked = false;                
             }
         }
     });
