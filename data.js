@@ -123,6 +123,7 @@ async function loadData() {
         const groupNodes = groupsData.groups.map((group, index) => ({
             name: group.name,
             index: originalNodes.length + index,
+            id: originalNodes.length + index,
             isGroup: true,
             groupIndex: index
         }));

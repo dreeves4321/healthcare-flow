@@ -88,7 +88,7 @@ function populateFocusContainer(node) {
     const notes = node.notes || '';
 
 
-    // Create focus contentf
+    // Create focus content
     let focusContent = `
         <div class="focus-row"> 
             <h2>${node.name}${node.isGroup ? ' (Group)' : ''}</h2>
@@ -286,7 +286,7 @@ function highlightNodes(nodeIndices = []) {
             .style("position", "absolute")
             .style("left", (x - 30) + "px")
             .style("top", (y - 20) + "px")
-            .html(`$${l.value.toLocaleString()} billion`);
+            .html(`$${l.value.toLocaleString()}B`);
             
         flowTooltip.transition()
             .duration(200)
@@ -339,7 +339,7 @@ function updateVisualization(data) {
     const rightPadding = 140; // space for the labels
     const height = 800; // this is a first guess, will be adjusted below
     const minWidth = 500; // minimum width of the sankey diagram
-    const margins = 40; // margins for the container. maybe i can get this from the css?
+    const margins = 0; // margins for the container. maybe i can get this from the css?
     // get the width of the container
     const container = document.getElementById('sankey-container');
     const containerWidth = container ? container.offsetWidth : 0; //
@@ -436,7 +436,7 @@ function updateVisualization(data) {
                 .classed("highlighted", true);
             const tooltip = d3.select(".tooltip");
             tooltip.style("opacity", .9)
-                .html(`$${d.value.toLocaleString()} billion`);
+                .html(`$${d.value.toLocaleString()}B`);
             
             // Select the rect elements and apply classes
             const sourceNode = d3.selectAll(".node-rectangles")
@@ -508,19 +508,17 @@ function updateVisualization(data) {
                 .filter(l => l.index === d.index)
                 .classed("highlighted", true);
            
-            // Calculate total inflow and outflow
+            // Calculate total outflow
             const inflow = d3.sum(sankeyLinks.filter(l => l.target === d), l => l.value);
             const outflow = d3.sum(sankeyLinks.filter(l => l.source === d), l => l.value);
-            
+            const totalflow = Math.max(inflow, outflow);
+
+
             // Create tooltip content
             let tooltipContent = `${d.name}${d.isGroup ? ' (Group)' : ''}<br>`;
-            if (inflow > 0) {
-                tooltipContent += `Inflow: $<strong>${inflow.toLocaleString()}</strong>B<br>`;
-            }
-            if (outflow > 0) {
-                tooltipContent += `Outflow: $<strong>${outflow.toLocaleString()}</strong>B`;
-            }
+            tooltipContent += `$<strong>${totalflow.toLocaleString()}</strong>B`;
             
+
             // Show node tooltip
             const tooltip = d3.select(".tooltip");
             tooltip.style("opacity", .9)
@@ -529,15 +527,14 @@ function updateVisualization(data) {
             // Position tooltip with edge protection
             const tooltipWidth = tooltip.node().offsetWidth;
             const tooltipHeight = tooltip.node().offsetHeight;
-            const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
             
             let left = event.pageX - tooltipWidth + 20;
             let top = event.pageY - tooltipHeight - 15;
             
-            // Check right edge
-            if (left + tooltipWidth > viewportWidth) {
-                left = event.pageX - tooltipWidth - 10;
+            // Check left edge
+            if (left - tooltipWidth < 0) {
+                left = 0;
             }
             
             // Check bottom edge
@@ -548,11 +545,34 @@ function updateVisualization(data) {
             tooltip.style("left", left + "px")
                 .style("top", top + "px");
         })
+        .on("mousemove", function(event, d) {
+            const tooltip = d3.select(".tooltip");
+            // Position tooltip with edge protection
+             const tooltipWidth = tooltip.node().offsetWidth;
+             const tooltipHeight = tooltip.node().offsetHeight;
+             const viewportHeight = window.innerHeight;
+             
+             let left = event.pageX - tooltipWidth + 20;
+             let top = event.pageY - tooltipHeight - 15;
+             
+             // Check left edge
+             if (left - tooltipWidth < 0) {
+                 left = 0;
+             }
+             
+             // Check bottom edge
+             if (top + tooltipHeight > viewportHeight) {
+                 top = event.pageY - tooltipHeight - 10;
+             }
+             
+             tooltip.style("left", left + "px")
+                 .style("top", top + "px");
+        })
         .on("mouseout", function() {
             // Hide tooltip
             d3.select(".tooltip").style("opacity", 0);
             
-            // if a node was clicked, don't show the tooltip or highlight the node
+            // if a node was clicked, don't hide the tooltip or unhighlight the node
             if (window.nodeClicked) {
                 return;
             }

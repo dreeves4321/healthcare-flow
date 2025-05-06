@@ -115,6 +115,19 @@ header h1 {
     max-width: 700px;
 }
 
+#mobile-warning-box {
+    display: none;
+}
+@media (max-width: 499px) {
+    #mobile-warning-box {
+        padding: 30px; 
+        display: block;
+        background-color: #4B3236;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 400; 
+    }
+}
 
 /* Story charts styles */
 .story-charts {
